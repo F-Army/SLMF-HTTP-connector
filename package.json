@@ -4,15 +4,15 @@
   "description": "Simple location message format HTTP Connector based on standard ISO/IEC 24730-1:2014 ",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest test"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/F-Army/SLMF-HTTP-connector.git"
   },
   "keywords": [
-    "smlf",
-    "http",
+    "slmf",
+    "http-connector",
     "rtls",
     "24730-1",
     "uwb"
@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/F-Army/SLMF-HTTP-connector/issues"
   },
-  "homepage": "https://github.com/F-Army/SLMF-HTTP-connector#readme"
+  "homepage": "https://github.com/F-Army/SLMF-HTTP-connector#readme",
+  "devDependencies": {
+    "jest": "^23.6.0"
+  }
 }
