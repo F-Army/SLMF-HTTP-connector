@@ -22,7 +22,7 @@ describe("Simple starting tests", () => {
         const config = slmfHttpConnector.getConfiguration()
         expect(config).toHaveProperty('url')
         expect(config).toHaveProperty('port')
-        expect(config).toHaveProperty('maxSmlfMessages')
+        expect(config).toHaveProperty('maxSlmfMessages')
         expect(config).toHaveProperty('accumulationPeriod')
         expect(config).toHaveProperty('maxRetries')
         expect(config).toHaveProperty('maxAccumulatedMessages')
@@ -32,7 +32,7 @@ describe("Simple starting tests", () => {
         const config = {
             url : 'http://example.com',
             port : 80,
-            maxSmlfMessages : 512,
+            maxSlmfMessages : 512,
             accumulationPeriod : 500,
             maxRetries : 15,
             maxAccumulatedMessages : 1024
