@@ -1,29 +1,18 @@
+module.exports = class SlmfHttpConnector {
+    constructor(config) {
+        this._config = config
+        this._running = false
+    }
 
-let running = false
+    set config(config) {
+        this._config = config
+    }
 
-let internalConfiguration = {
-    url : null,
-    port : 80,
-    maxSlmfMessages : 1024,
-    accumulationPeriod : 1000,
-    maxRetries : 3,
-    maxAccumulatedMessages : 1024
+    get config () { return this._config }
+
+    isRunning () { return this._running }
+
+    start () { this._running = true }
+
+    stop () { this._running = false }
 }
-
-exports.isRunning = () => running
-
-exports.start = () => running = true
-
-exports.stop = () => running = false
-
-exports.setConfiguration = (config) => {
-    internalConfiguration.url = config.url
-    internalConfiguration.port = config.port
-    internalConfiguration.maxSlmfMessages = config.maxSlmfMessages
-    internalConfiguration.accumulationPeriod = config.accumulationPeriod
-    internalConfiguration.maxRetries = config.maxRetries
-    internalConfiguration.maxAccumulatedMessages = config.maxAccumulatedMessages
-}
-
-exports.getConfiguration = () => internalConfiguration
-
