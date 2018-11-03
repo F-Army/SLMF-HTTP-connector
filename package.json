@@ -11,8 +11,8 @@
     "url": "git+https://github.com/F-Army/SLMF-HTTP-connector.git"
   },
   "keywords": [
-    "smlf",
-    "http",
+    "slmf",
+    "http-connector",
     "rtls",
     "24730-1",
     "uwb"
