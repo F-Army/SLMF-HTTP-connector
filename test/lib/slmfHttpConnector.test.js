@@ -3,7 +3,7 @@
 const SlmfHttpConnector = require('./../../lib/slmfHttpConnector')
 
 const config = {
-    url : 'http://example.com',
+    url : 'http://127.0.0.1',
     port : 80,
     maxSlmfMessages : 512,
     accumulationPeriod : 500
@@ -41,8 +41,8 @@ describe('Simple starting tests', () => {
 
     it('should set the proper configuration when valid', () => {
         const newConfig = {
-            url : 'http://example2.com',
-            port : 80,
+            url : 'http://127.0.0.1',
+            port : 8080,
             maxSlmfMessages : 512,
             accumulationPeriod : 500,
             maxRetries : 15,
