@@ -27,7 +27,7 @@ describe('Configuration schema test', () => {
             maxRetries : 1
         }
 
-        const { error, value } = Joi.validate(wrongCfg, configSchema)
+        const { error } = Joi.validate(wrongCfg, configSchema)
         expect(error).toBeDefined()
     })
 })
