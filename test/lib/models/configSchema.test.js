@@ -1,3 +1,5 @@
+'use strict'
+
 const Joi = require('joi')
 
 const configSchema = require('./../../../lib/models/configSchema')
@@ -5,7 +7,7 @@ const configSchema = require('./../../../lib/models/configSchema')
 describe('Configuration schema test', () => {
     it('should validate correct schema', () => {
         const cfg = {
-            url : 'http://127.0.0.1',
+            url : 'https://127.0.0.1',
             port : 80,
             maxSlmfMessages : 512,
             accumulationPeriod : 500,
@@ -21,7 +23,7 @@ describe('Configuration schema test', () => {
     it('should give error with invalid schema', () => {
         const wrongCfg = {
             url : '1212!!',
-            port : "hello",
+            port : 'hello',
             maxSlmfMessages : 20148,
             accumulationPeriod : -2,
             maxRetries : 1

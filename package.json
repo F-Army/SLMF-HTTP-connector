@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/F-Army/SLMF-HTTP-connector#readme",
   "devDependencies": {
+    "eslint": "^5.8.0",
     "jest": "^23.6.0"
   },
   "dependencies": {

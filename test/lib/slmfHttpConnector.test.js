@@ -11,7 +11,7 @@ const config = {
 
 const slmfHttpConnector = new SlmfHttpConnector(config)
 
-describe("Simple starting tests", () => {
+describe('Simple starting tests', () => {
     it('should start stopped', () => {
         expect(slmfHttpConnector.isRunning()).toBe(false)
     })
