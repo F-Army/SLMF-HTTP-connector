@@ -1,12 +1,12 @@
+'use strict'
+
 const SlmfHttpConnector = require('./../index')
 
 const config = {
     url : 'http://example.com',
     port : 80,
     maxSlmfMessages : 512,
-    accumulationPeriod : 500,
-    maxRetries : 15,
-    maxAccumulatedMessages : 1024
+    accumulationPeriod : 500
 }
 
 const slmfHttpConnector = new SlmfHttpConnector(config)
@@ -53,5 +53,3 @@ describe("Simple starting tests", () => {
     })
 
 })
-
-
