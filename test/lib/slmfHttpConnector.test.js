@@ -39,7 +39,7 @@ describe('Simple starting tests', () => {
         expect(config).toHaveProperty('maxAccumulatedMessages')
     })
 
-    it('should set the proper configuration', () => {
+    it('should set the proper configuration when valid', () => {
         const newConfig = {
             url : 'http://example2.com',
             port : 80,
@@ -48,8 +48,23 @@ describe('Simple starting tests', () => {
             maxRetries : 15,
             maxAccumulatedMessages : 1024
         }
+
         slmfHttpConnector.config = newConfig
         expect(slmfHttpConnector.config).toEqual(newConfig)
+    })
+
+    it('should throw error on invalid configuration set', () => {
+        const wrongConfig = {
+            url : 'random',
+            port : -1,
+            maxSlmfMessages : 512
+        }
+        try {
+            slmfHttpConnector.config = wrongConfig
+        } catch(error) {
+            expect(error.message).toBe('Invalid configuration')
+        }
+
     })
 
 })

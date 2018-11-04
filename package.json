@@ -4,7 +4,8 @@
   "description": "Simple location message format HTTP Connector based on standard ISO/IEC 24730-1:2014 ",
   "main": "index.js",
   "scripts": {
-    "test": "jest test"
+    "test": "jest test",
+    "linter": "eslint ."
   },
   "repository": {
     "type": "git",
