@@ -5,7 +5,7 @@ const configSchema = require('./../../../lib/models/configSchema')
 describe('Configuration schema test', () => {
     it('should validate correct schema', () => {
         const cfg = {
-            url : 'http://example2.com',
+            url : 'http://127.0.0.1',
             port : 80,
             maxSlmfMessages : 512,
             accumulationPeriod : 500,
