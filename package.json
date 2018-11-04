@@ -18,7 +18,11 @@
     "24730-1",
     "uwb"
   ],
-  "author": "Michele Biondi <michelebiondi01@gmail.com>",
+  "author": {
+    "name": "Michele Biondi",
+    "email": "michelebiondi01@gmail.com",
+    "url": "https://github.com/an4cr0n"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/F-Army/SLMF-HTTP-connector/issues"
