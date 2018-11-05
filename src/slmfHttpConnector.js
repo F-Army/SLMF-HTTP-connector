@@ -2,7 +2,7 @@
 
 import Joi from 'joi'
 
-import configSchema from './models/configSchema'
+import configSchema from './models/config'
 
 class SlmfHttpConnector {
     constructor(config) {

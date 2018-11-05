@@ -2,7 +2,7 @@
   "name": "slmf-http-connector",
   "version": "0.0.0",
   "description": "Simple location message format HTTP Connector based on standard ISO/IEC 24730-1:2014 ",
-  "main": "./lib/index.js",
+  "main": "./index.js",
   "scripts": {
     "test": "npm run build && jest test",
     "linter": "eslint .",
