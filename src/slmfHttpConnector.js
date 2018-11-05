@@ -2,9 +2,9 @@
 
 import Joi from 'joi'
 
-import { configSchema } from './models/configSchema'
+import configSchema from './models/configSchema'
 
-export class SlmfHttpConnector {
+class SlmfHttpConnector {
     constructor(config) {
         this.config = config
         this._running = false
@@ -26,3 +26,5 @@ export class SlmfHttpConnector {
 
     stop () { this._running = false }
 }
+
+export default SlmfHttpConnector
