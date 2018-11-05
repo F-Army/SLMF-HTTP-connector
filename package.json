@@ -7,7 +7,7 @@
     "test": "npm run build && jest test",
     "linter": "eslint .",
     "build": "babel src/ -d lib/",
-    "prepublish": "npm run build"
+    "prepare": "npm run build"
   },
   "repository": {
     "type": "git",
