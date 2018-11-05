@@ -11,7 +11,7 @@ const config = {
 
 const slmfHttpConnector = new SlmfHttpConnector(config)
 
-describe('Simple starting tests', () => {
+describe('Slmf Http Connector tests', () => {
     beforeEach(() => {
         slmfHttpConnector.stop()
     })

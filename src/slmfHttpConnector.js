@@ -6,7 +6,7 @@ import configSchema from './models/config'
 
 class SlmfHttpConnector {
     constructor(config) {
-        this.config = config
+        this.config = config // N.B. this.config not this._config because it will use the set function
         this._running = false
     }
 
