@@ -1,8 +1,8 @@
 'use strict'
 
-const Joi = require('joi')
+import  Joi from 'joi'
 
-const { configSchema } = require('./../../../lib/models/configSchema')
+import { configSchema } from './../../../lib/models/configSchema'
 
 describe('Configuration schema test', () => {
     it('should validate correct schema', () => {

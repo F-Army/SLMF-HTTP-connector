@@ -31,12 +31,13 @@
   },
   "homepage": "https://github.com/F-Army/SLMF-HTTP-connector#readme",
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-jest": "^23.6.0",
     "eslint": "^5.8.0",
     "jest": "^23.6.0"
   },
   "dependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
     "joi": "^14.0.4"
   }
 }
