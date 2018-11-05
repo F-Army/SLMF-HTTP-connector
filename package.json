@@ -2,10 +2,13 @@
   "name": "slmf-http-connector",
   "version": "0.0.0",
   "description": "Simple location message format HTTP Connector based on standard ISO/IEC 24730-1:2014 ",
-  "main": "index.js",
+  "main": "./lib/index.js",
   "scripts": {
-    "test": "jest test",
-    "linter": "eslint ."
+    "test": "npm run build && jest test",
+    "linter": "eslint .",
+    "build": "babel src/ -d lib/",
+    "prepublish": "npm run build",
+    "flow": "flow"
   },
   "repository": {
     "type": "git",
@@ -33,6 +36,9 @@
     "jest": "^23.6.0"
   },
   "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-flow": "^6.23.0",
+    "flow-bin": "^0.85.0",
     "joi": "^14.0.4"
   }
 }
