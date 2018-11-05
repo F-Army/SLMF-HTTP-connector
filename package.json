@@ -7,8 +7,7 @@
     "test": "npm run build && jest test",
     "linter": "eslint .",
     "build": "babel src/ -d lib/",
-    "prepublish": "npm run build",
-    "flow": "flow"
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -37,8 +36,7 @@
   },
   "dependencies": {
     "babel-cli": "^6.26.0",
-    "babel-preset-flow": "^6.23.0",
-    "flow-bin": "^0.85.0",
+    "babel-preset-env": "^1.7.0",
     "joi": "^14.0.4"
   }
 }

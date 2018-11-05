@@ -1,1 +1,1 @@
-module.exports = require('./slmfHttpConnector')
+export { SlmfHttpConnector } from './slmfHttpConnector'

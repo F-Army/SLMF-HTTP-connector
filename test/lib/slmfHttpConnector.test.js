@@ -1,6 +1,7 @@
 'use strict'
 
-const SlmfHttpConnector = require('../../lib/slmfHttpConnector')
+//const { SlmfHttpConnector } = require('../../lib/slmfHttpConnector')
+const { SlmfHttpConnector } = require('../../lib/index')
 
 const config = {
     url : 'http://127.0.0.1',

@@ -2,7 +2,7 @@
 
 const Joi = require('joi')
 
-const configSchema = require('./../../../lib/models/configSchema')
+const { configSchema } = require('./../../../lib/models/configSchema')
 
 describe('Configuration schema test', () => {
     it('should validate correct schema', () => {

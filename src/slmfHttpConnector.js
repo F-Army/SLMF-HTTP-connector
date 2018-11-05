@@ -1,10 +1,10 @@
 'use strict'
 
-const Joi = require('joi')
+import Joi from 'joi'
 
-const configSchema = require('./models/configSchema')
+import { configSchema } from './models/configSchema'
 
-module.exports = class SlmfHttpConnector {
+export class SlmfHttpConnector {
     constructor(config) {
         this.config = config
         this._running = false
