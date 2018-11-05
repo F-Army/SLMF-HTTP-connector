@@ -12,6 +12,10 @@ const config = {
 const slmfHttpConnector = new SlmfHttpConnector(config)
 
 describe('Simple starting tests', () => {
+    beforeEach(() => {
+        slmfHttpConnector.stop()
+    })
+
     it('should start stopped', () => {
         expect(slmfHttpConnector.isRunning()).toBe(false)
     })
@@ -22,9 +26,7 @@ describe('Simple starting tests', () => {
     })
     
     it('stops when told to do so', () => {
-        if(!slmfHttpConnector.isRunning())
-            slmfHttpConnector.start()
-        
+        slmfHttpConnector.start()
         slmfHttpConnector.stop()
         expect(slmfHttpConnector.isRunning()).toBe(false)
     })
