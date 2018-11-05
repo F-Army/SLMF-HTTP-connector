@@ -31,16 +31,6 @@ describe('Slmf Http Connector tests', () => {
         expect(slmfHttpConnector.isRunning()).toBe(false)
     })
 
-    it('should return a configuration', () => {
-        const config = slmfHttpConnector.config
-        expect(config).toHaveProperty('url')
-        expect(config).toHaveProperty('port')
-        expect(config).toHaveProperty('maxSlmfMessages')
-        expect(config).toHaveProperty('accumulationPeriod')
-        expect(config).toHaveProperty('maxRetries')
-        expect(config).toHaveProperty('maxAccumulatedMessages')
-    })
-
     it('should set the proper configuration when valid', () => {
         const newConfig = {
             url : 'http://127.0.0.1',
