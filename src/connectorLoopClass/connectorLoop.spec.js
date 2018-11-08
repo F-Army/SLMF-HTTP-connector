@@ -1,3 +1,5 @@
+'use strict'
+
 import ConnectorLoop from './connectorLoop'
 
 const CALL_TIMES = 2
