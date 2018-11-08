@@ -2,9 +2,12 @@
   "name": "slmf-http-connector",
   "version": "0.0.0",
   "description": "Simple location message format HTTP Connector based on standard ISO/IEC 24730-1:2014 ",
-  "main": "index.js",
+  "main": "./index.js",
   "scripts": {
-    "test": "jest test"
+    "test": "npm run build && jest test",
+    "linter": "eslint .",
+    "build": "babel src/ -d lib/",
+    "prepare": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -17,13 +20,24 @@
     "24730-1",
     "uwb"
   ],
-  "author": "Michele Biondi <michelebiondi01@gmail.com>",
+  "author": {
+    "name": "Michele Biondi",
+    "email": "michelebiondi01@gmail.com",
+    "url": "https://github.com/an4cr0n"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/F-Army/SLMF-HTTP-connector/issues"
   },
   "homepage": "https://github.com/F-Army/SLMF-HTTP-connector#readme",
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-jest": "^23.6.0",
+    "eslint": "^5.8.0",
     "jest": "^23.6.0"
+  },
+  "dependencies": {
+    "joi": "^14.0.4"
   }
 }
