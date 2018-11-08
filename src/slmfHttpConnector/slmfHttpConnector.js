@@ -2,7 +2,7 @@
 
 import Joi from 'joi'
 
-import settingsSchema from './models/settings'
+import settingsSchema from '../settings'
 
 class SlmfHttpConnector {
     constructor(settings) {
@@ -15,7 +15,7 @@ class SlmfHttpConnector {
         if(!error)
             this._settings = value
         else
-            throw new Error('Invalid settingsuration')
+            throw new Error('Invalid settings')
     }
 
     get settings () { return this._settings }

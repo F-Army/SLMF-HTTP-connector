@@ -1,6 +1,6 @@
 'use strict'
 
-import SlmfHttpConnector from './../lib/slmfHttpConnector'
+import SlmfHttpConnector from './slmfHttpConnector'
 
 const initialSettings = {
     url : 'http://127.0.0.1',
