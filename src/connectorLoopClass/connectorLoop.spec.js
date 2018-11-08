@@ -35,7 +35,7 @@ describe('Connector loop test', () => {
         expect(mockCalledFnWithArguments).toHaveReturnedTimes(CALL_TIMES)
         
         for(let callNum = 1; callNum <= CALL_TIMES; callNum++)
-        expect(mockCalledFnWithArguments).toHaveNthReturnedWith(callNum, 5)
+            expect(mockCalledFnWithArguments).toHaveNthReturnedWith(callNum, 5)
 
     })
 
@@ -55,5 +55,24 @@ describe('Connector loop test', () => {
         asyncConnectorLoop.stop()
 
         expect(asyncMockFn).toHaveBeenCalledTimes(1)
+    })
+
+    it('should change operation correctly', () => {
+        const newMock = jest.fn((x, y) => x + y)
+
+        const connectorLoop = new ConnectorLoop((x,y) => x-y, INTERVAL)
+
+        connectorLoop.changeOperation(newMock, 2, 3)
+
+        connectorLoop.start()
+
+        jest.advanceTimersByTime(INTERVAL * CALL_TIMES)
+
+        connectorLoop.stop()
+
+        expect(newMock).toHaveBeenCalledTimes(CALL_TIMES)
+        for(let callNum = 1; callNum <= CALL_TIMES; callNum++)
+            expect(newMock).toHaveNthReturnedWith(callNum, 5)
+
     })
 })

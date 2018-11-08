@@ -14,6 +14,11 @@ class ConnectorLoop {
     stop () {
         clearInterval(this._loopHandler)
     }
+
+    changeOperation (operation, ...fnArguments) {
+        this._operation = operation
+        this._fnArguments = fnArguments
+    }
 }
 
 export default ConnectorLoop
