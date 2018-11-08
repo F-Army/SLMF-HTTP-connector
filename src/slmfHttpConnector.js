@@ -2,23 +2,23 @@
 
 import Joi from 'joi'
 
-import configSchema from './models/config'
+import settingsSchema from './models/settings'
 
 class SlmfHttpConnector {
-    constructor(config) {
-        this.config = config // N.B. this.config not this._config because it will use the set function
+    constructor(settings) {
+        this.settings = settings // N.B. this.settings not this._settings because it will use the set function
         this._running = false
     }
 
-    set config(config) {
-        const { error, value } = Joi.validate(config, configSchema)
+    set settings(settings) {
+        const { error, value } = Joi.validate(settings, settingsSchema)
         if(!error)
-            this._config = value
+            this._settings = value
         else
-            throw new Error('Invalid configuration')
+            throw new Error('Invalid settingsuration')
     }
 
-    get config () { return this._config }
+    get settings () { return this._settings }
 
     isRunning () { return this._running }
 

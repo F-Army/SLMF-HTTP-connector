@@ -2,14 +2,14 @@
 
 import SlmfHttpConnector from './../lib/slmfHttpConnector'
 
-const config = {
+const initialSettings = {
     url : 'http://127.0.0.1',
     port : 80,
     maxSlmfMessages : 512,
     accumulationPeriod : 500
 }
 
-const slmfHttpConnector = new SlmfHttpConnector(config)
+const slmfHttpConnector = new SlmfHttpConnector(initialSettings)
 
 describe('Slmf Http Connector tests', () => {
     beforeEach(() => {
@@ -32,7 +32,7 @@ describe('Slmf Http Connector tests', () => {
     })
 
     it('should set the proper configuration when valid', () => {
-        const newConfig = {
+        const newSettings = {
             url : 'http://127.0.0.1',
             port : 8080,
             maxSlmfMessages : 512,
@@ -41,18 +41,18 @@ describe('Slmf Http Connector tests', () => {
             maxAccumulatedMessages : 1024
         }
 
-        slmfHttpConnector.config = newConfig
-        expect(slmfHttpConnector.config).toEqual(newConfig)
+        slmfHttpConnector.config = newSettings
+        expect(slmfHttpConnector.config).toEqual(newSettings)
     })
 
     it('should throw error on invalid configuration set', () => {
-        const wrongConfig = {
+        const wrongSettings = {
             url : 'random',
             port : -1,
             maxSlmfMessages : 512
         }
         try {
-            slmfHttpConnector.config = wrongConfig
+            slmfHttpConnector.config = wrongSettings
         } catch(error) {
             expect(error.message).toBe('Invalid configuration')
         }
