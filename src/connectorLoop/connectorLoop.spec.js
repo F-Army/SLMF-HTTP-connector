@@ -3,7 +3,7 @@
 import ConnectorLoop from './connectorLoop'
 
 const CALL_TIMES = 2
-const INTERVAL = 5
+const INTERVAL = 1
 
 jest.useFakeTimers()
 
