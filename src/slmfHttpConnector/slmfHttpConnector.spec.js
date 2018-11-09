@@ -1,6 +1,11 @@
 'use strict'
 
+jest.mock('axios')
+jest.useFakeTimers()
+
+import axios from 'axios'
 import SlmfHttpConnector from './slmfHttpConnector'
+
 
 const initialSettings = {
     url : 'http://127.0.0.1',
@@ -58,5 +63,28 @@ describe('Slmf Http Connector tests', () => {
         }
 
     })
+
+    it('should call send post request every time accumulationPeriod expires', () => {
+        const postSettings = {
+            url : 'http://127.0.0.1',
+            port : 8080,
+            maxSlmfMessages : 512,
+            accumulationPeriod : 500,
+            maxRetries : 15,
+            maxAccumulatedMessages : 1024
+        }
+
+        slmfHttpConnector.settings = postSettings
+        slmfHttpConnector.start()
+
+        jest.advanceTimersByTime(slmfHttpConnector.settings.accumulationPeriod * 3)
+
+        slmfHttpConnector.stop()
+
+        expect(axios.post).toHaveBeenCalledTimes(3)
+
+
+    })
+
 
 })
