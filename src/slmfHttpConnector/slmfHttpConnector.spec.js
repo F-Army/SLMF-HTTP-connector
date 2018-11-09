@@ -65,6 +65,33 @@ describe('Slmf Http Connector tests', () => {
     })
 
     it('should call send post request every time accumulationPeriod expires', () => {
+
+        const CALLS = 3
+
+        const postSettings = {
+            url : 'http://127.0.0.1',
+            port : 8080,
+            maxSlmfMessages : 512,
+            accumulationPeriod : 500,
+            maxRetries : 15,
+            maxAccumulatedMessages : 1024
+        }
+
+        slmfHttpConnector.settings = postSettings
+        slmfHttpConnector.start()
+        
+        for(let i = 0; i < CALLS; i++) {
+            slmfHttpConnector.addMessages({data: 'data'})
+            jest.advanceTimersByTime(slmfHttpConnector.settings.accumulationPeriod)
+        }
+
+        slmfHttpConnector.stop()
+
+        expect(axios.post).toHaveBeenCalledTimes(CALLS)
+
+    })
+
+    it('should delete data every time it sends the messages', () => {
         const postSettings = {
             url : 'http://127.0.0.1',
             port : 8080,
@@ -77,14 +104,13 @@ describe('Slmf Http Connector tests', () => {
         slmfHttpConnector.settings = postSettings
         slmfHttpConnector.start()
 
-        jest.advanceTimersByTime(slmfHttpConnector.settings.accumulationPeriod * 3)
+        slmfHttpConnector.addMessages({data: 'data'})
+        expect(slmfHttpConnector._accumulator.data.length).toBe(1)
+        jest.advanceTimersByTime(slmfHttpConnector.settings.accumulationPeriod)
+
+        expect(slmfHttpConnector._accumulator.data.length).toBe(0)
 
         slmfHttpConnector.stop()
-
-        expect(axios.post).toHaveBeenCalledTimes(3)
-
-
     })
-
 
 })
