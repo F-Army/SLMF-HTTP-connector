@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest __tests__",
     "linter": "eslint .",
-    "build": "babel src/ --out-dir lib --extensions '.js, .ts'",
+    "build": "babel src/ --out-dir lib --extensions '.ts'",
     "prepublishOnly": "npm run build"
   },
   "repository": {
@@ -39,7 +39,8 @@
     "babel-jest": "^23.6.0",
     "eslint": "^5.8.0",
     "jest": "^23.6.0",
-    "regenerator-runtime": "^0.12.1"
+    "regenerator-runtime": "^0.12.1",
+    "typescript": "^3.1.6"
   },
   "dependencies": {
     "axios": "^0.18.0",
