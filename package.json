@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest src",
     "linter": "eslint .",
-    "build": "babel src/ -d lib/",
+    "build": "babel src/ --out-dir lib/",
     "prepublishOnly": "npm run build"
   },
   "repository": {
@@ -31,11 +31,14 @@
   },
   "homepage": "https://github.com/F-Army/SLMF-HTTP-connector#readme",
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
+    "@babel/cli": "^7.1.5",
+    "@babel/core": "^7.1.5",
+    "@babel/preset-env": "^7.1.5",
+    "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^23.6.0",
     "eslint": "^5.8.0",
-    "jest": "^23.6.0"
+    "jest": "^23.6.0",
+    "regenerator-runtime": "^0.12.1"
   },
   "dependencies": {
     "axios": "^0.18.0",
