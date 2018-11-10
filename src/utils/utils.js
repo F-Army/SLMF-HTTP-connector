@@ -1,3 +1,6 @@
-const copyArray = array => array.map( x => x)
+// @flow
+'use strict'
+
+const copyArray = (array: Array<{}>): Array<{}> => array.map( (x: {}): {} => x)
 
 export { copyArray }
