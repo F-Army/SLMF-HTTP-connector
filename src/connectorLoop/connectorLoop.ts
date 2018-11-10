@@ -1,6 +1,12 @@
 'use strict'
 
 class ConnectorLoop {
+
+    _operation
+    _interval
+    _fnArguments
+    _loopHandler
+    
     constructor(operation, interval, ...fnArguments) {
         this._operation = operation
         this._interval = interval

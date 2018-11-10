@@ -1,4 +1,8 @@
 class Accumulator {
+
+    _maxItems
+    _data
+    
     constructor(maxItems) {
         this._maxItems = maxItems
         this._data = new Array()

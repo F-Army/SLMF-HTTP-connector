@@ -9,9 +9,13 @@ import Accumulator from '../accumulator'
 
 import { copyArray } from '../utils'
 
-
-
 class SlmfHttpConnector {
+
+    _running
+    _accumulator
+    _loop
+    _settings
+
     constructor(settings) {
         this.settings = settings // N.B. this.settings not this._settings because it will use the set function
         this._running = false
