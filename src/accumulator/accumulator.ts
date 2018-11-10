@@ -1,18 +1,18 @@
 class Accumulator {
 
-    public maxItems;
-    public items;
+    public maxItems: number;
+    public items: object[];
 
-    constructor(maxItems) {
+    constructor(maxItems: number) {
         this.maxItems = maxItems;
-        this.items = new Array();
+        this.items = [];
     }
 
     get data() {
         return this.items;
     }
 
-    public add(...items) {
+    public add(...items: object[]) {
         if ( ( this.items.length + items.length) <= this.maxItems) {
             this.items.push(...items);
         } else {
@@ -21,7 +21,7 @@ class Accumulator {
     }
 
     public clear() {
-        this.items = new Array();
+        this.items = [];
     }
 }
 
