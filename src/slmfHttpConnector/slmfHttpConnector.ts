@@ -16,7 +16,7 @@ class SlmfHttpConnector {
     private loop: ConnectorLoop;
     private running: boolean;
 
-    private _settings!: {
+    private settings$!: {
         accumulationPeriod: number,
         maxAccumulatedMessages?: number,
         maxRetries?: number,
@@ -34,7 +34,7 @@ class SlmfHttpConnector {
             port: number,
             url: string,
     }) {
-        this.settings = settings; // N.B. this.settings not this._settings because it will use the set function
+        this.settings = settings; // N.B. this.settings not this.settings$ because it will use the set function
         this.running = false;
         this.accumulator = new Accumulator(this.settings.maxAccumulatedMessages!);
 
@@ -50,13 +50,13 @@ class SlmfHttpConnector {
     set settings(settings) {
         const { error, value } = Joi.validate(settings, settingsSchema);
         if (!error) {
-            this._settings = value;
+            this.settings$ = value;
         } else {
             throw new Error("Invalid settings");
         }
     }
 
-    get settings() { return this._settings; }
+    get settings() { return this.settings$; }
 
     public isRunning() { return this.running; }
 
