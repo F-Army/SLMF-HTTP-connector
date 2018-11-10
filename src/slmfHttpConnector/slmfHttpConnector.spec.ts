@@ -46,8 +46,8 @@ describe("Slmf Http Connector tests", () => {
 
     it("should set the proper configuration when valid", () => {
 
-        slmfHttpConnector.config = nextSettings;
-        expect(slmfHttpConnector.config).toEqual(nextSettings);
+        slmfHttpConnector.settings = nextSettings;
+        expect(slmfHttpConnector.settings).toEqual(nextSettings);
     });
 
     it("should throw error on invalid configuration set", () => {
@@ -57,9 +57,9 @@ describe("Slmf Http Connector tests", () => {
             url : "random",
         };
         try {
-            slmfHttpConnector.config = wrongSettings;
+            slmfHttpConnector.settings = wrongSettings;
         } catch (error) {
-            expect(error.message).toBe("Invalid configuration");
+            expect(error.message).toBe("Invalid settings");
         }
 
     });
