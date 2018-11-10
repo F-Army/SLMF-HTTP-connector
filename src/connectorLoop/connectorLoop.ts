@@ -1,30 +1,30 @@
-'use strict'
+"use strict";
 
 class ConnectorLoop {
 
-    _operation
-    _interval
-    _fnArguments
-    _loopHandler
-    
+    public operation;
+    public interval;
+    public fnArguments;
+    public loopHandler;
+
     constructor(operation, interval, ...fnArguments) {
-        this._operation = operation
-        this._interval = interval
-        this._fnArguments = fnArguments
+        this.operation = operation;
+        this.interval = interval;
+        this.fnArguments = fnArguments;
     }
 
-    start () {
-        this._loopHandler = setInterval(this._operation, this._interval, ...this._fnArguments)
+    public start() {
+        this.loopHandler = setInterval(this.operation, this.interval, ...this.fnArguments);
     }
 
-    stop () {
-        clearInterval(this._loopHandler)
+    public stop() {
+        clearInterval(this.loopHandler);
     }
 
-    changeOperation (operation, ...fnArguments) {
-        this._operation = operation
-        this._fnArguments = fnArguments
+    public changeOperation(operation, ...fnArguments) {
+        this.operation = operation;
+        this.fnArguments = fnArguments;
     }
 }
 
-export default ConnectorLoop
+export default ConnectorLoop;

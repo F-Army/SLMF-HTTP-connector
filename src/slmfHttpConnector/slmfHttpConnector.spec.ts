@@ -1,116 +1,99 @@
-'use strict'
+"use strict";
 
-jest.mock('axios')
-jest.useFakeTimers()
+jest.mock("axios");
+jest.useFakeTimers();
 
-import axios from 'axios'
-import SlmfHttpConnector from './slmfHttpConnector'
-
+import axios from "axios";
+import SlmfHttpConnector from "./slmfHttpConnector";
 
 const initialSettings = {
-    url : 'http://127.0.0.1',
-    port : 80,
+    accumulationPeriod : 500,
     maxSlmfMessages : 512,
-    accumulationPeriod : 500
-}
+    port : 80,
+    url : "http://127.0.0.1",
+};
 
-const slmfHttpConnector = new SlmfHttpConnector(initialSettings)
+const nextSettings = {
+    accumulationPeriod : 500,
+    maxAccumulatedMessages : 1024,
+    maxRetries : 15,
+    maxSlmfMessages : 512,
+    port : 8080,
+    url : "http://127.0.0.1",
+};
 
-describe('Slmf Http Connector tests', () => {
+const slmfHttpConnector = new SlmfHttpConnector(initialSettings);
+
+describe("Slmf Http Connector tests", () => {
     beforeEach(() => {
-        slmfHttpConnector.stop()
-    })
+        slmfHttpConnector.stop();
+    });
 
-    it('should start stopped', () => {
-        expect(slmfHttpConnector.isRunning()).toBe(false)
-    })
-    
-    it('starts when told to do so', () => {
-        slmfHttpConnector.start()
-        expect(slmfHttpConnector.isRunning()).toBe(true)
-    })
-    
-    it('stops when told to do so', () => {
-        slmfHttpConnector.start()
-        slmfHttpConnector.stop()
-        expect(slmfHttpConnector.isRunning()).toBe(false)
-    })
+    it("should start stopped", () => {
+        expect(slmfHttpConnector.isRunning()).toBe(false);
+    });
 
-    it('should set the proper configuration when valid', () => {
-        const newSettings = {
-            url : 'http://127.0.0.1',
-            port : 8080,
-            maxSlmfMessages : 512,
-            accumulationPeriod : 500,
-            maxRetries : 15,
-            maxAccumulatedMessages : 1024
-        }
+    it("starts when told to do so", () => {
+        slmfHttpConnector.start();
+        expect(slmfHttpConnector.isRunning()).toBe(true);
+    });
 
-        slmfHttpConnector.config = newSettings
-        expect(slmfHttpConnector.config).toEqual(newSettings)
-    })
+    it("stops when told to do so", () => {
+        slmfHttpConnector.start();
+        slmfHttpConnector.stop();
+        expect(slmfHttpConnector.isRunning()).toBe(false);
+    });
 
-    it('should throw error on invalid configuration set', () => {
+    it("should set the proper configuration when valid", () => {
+
+        slmfHttpConnector.config = nextSettings;
+        expect(slmfHttpConnector.config).toEqual(nextSettings);
+    });
+
+    it("should throw error on invalid configuration set", () => {
         const wrongSettings = {
-            url : 'random',
+            maxSlmfMessages : 512,
             port : -1,
-            maxSlmfMessages : 512
-        }
+            url : "random",
+        };
         try {
-            slmfHttpConnector.config = wrongSettings
-        } catch(error) {
-            expect(error.message).toBe('Invalid configuration')
+            slmfHttpConnector.config = wrongSettings;
+        } catch (error) {
+            expect(error.message).toBe("Invalid configuration");
         }
 
-    })
+    });
 
-    it('should call send post request every time accumulationPeriod expires', () => {
+    it("should call send post request every time accumulationPeriod expires", () => {
 
-        const CALLS = 3
+        const CALLS = 3;
 
-        const postSettings = {
-            url : 'http://127.0.0.1',
-            port : 8080,
-            maxSlmfMessages : 512,
-            accumulationPeriod : 500,
-            maxRetries : 15,
-            maxAccumulatedMessages : 1024
+        slmfHttpConnector.settings = nextSettings;
+        slmfHttpConnector.start();
+
+        for (let i = 0; i < CALLS; i++) {
+            slmfHttpConnector.addMessages({data: "data"});
+            jest.advanceTimersByTime(slmfHttpConnector.settings.accumulationPeriod);
         }
 
-        slmfHttpConnector.settings = postSettings
-        slmfHttpConnector.start()
-        
-        for(let i = 0; i < CALLS; i++) {
-            slmfHttpConnector.addMessages({data: 'data'})
-            jest.advanceTimersByTime(slmfHttpConnector.settings.accumulationPeriod)
-        }
+        slmfHttpConnector.stop();
 
-        slmfHttpConnector.stop()
+        expect(axios.post).toHaveBeenCalledTimes(CALLS);
 
-        expect(axios.post).toHaveBeenCalledTimes(CALLS)
+    });
 
-    })
+    it("should delete data every time it sends the messages", () => {
 
-    it('should delete data every time it sends the messages', () => {
-        const postSettings = {
-            url : 'http://127.0.0.1',
-            port : 8080,
-            maxSlmfMessages : 512,
-            accumulationPeriod : 500,
-            maxRetries : 15,
-            maxAccumulatedMessages : 1024
-        }
+        slmfHttpConnector.settings = nextSettings;
+        slmfHttpConnector.start();
 
-        slmfHttpConnector.settings = postSettings
-        slmfHttpConnector.start()
+        slmfHttpConnector.addMessages({data: "data"});
+        expect(slmfHttpConnector.accumulator.data.length).toBe(1);
+        jest.advanceTimersByTime(slmfHttpConnector.settings.accumulationPeriod);
 
-        slmfHttpConnector.addMessages({data: 'data'})
-        expect(slmfHttpConnector._accumulator.data.length).toBe(1)
-        jest.advanceTimersByTime(slmfHttpConnector.settings.accumulationPeriod)
+        expect(slmfHttpConnector.accumulator.data.length).toBe(0);
 
-        expect(slmfHttpConnector._accumulator.data.length).toBe(0)
+        slmfHttpConnector.stop();
+    });
 
-        slmfHttpConnector.stop()
-    })
-
-})
+});

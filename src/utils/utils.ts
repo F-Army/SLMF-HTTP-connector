@@ -1,3 +1,3 @@
-const copyArray = array => array.map( x => x)
+const copyArray = (array) => array.map( (x) => x);
 
-export { copyArray }
+export { copyArray };

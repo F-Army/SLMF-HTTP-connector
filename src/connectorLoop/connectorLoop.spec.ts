@@ -1,80 +1,82 @@
-'use strict'
+"use strict";
 
-import ConnectorLoop from './connectorLoop'
+import ConnectorLoop from "./connectorLoop";
 
-const CALL_TIMES = 2
-const INTERVAL = 1
+const CALL_TIMES = 2;
+const INTERVAL = 1;
 
-jest.useFakeTimers()
+jest.useFakeTimers();
 
-describe('Connector loop test', () => {
-    it('should call function multiple times in the time specified', () => {
-        const mockCalledFn = jest.fn()
+describe("Connector loop test", () => {
+    it("should call function multiple times in the time specified", () => {
+        const mockCalledFn = jest.fn();
 
-        const connectorLoopTest = new ConnectorLoop(mockCalledFn, INTERVAL)
+        const connectorLoopTest = new ConnectorLoop(mockCalledFn, INTERVAL);
 
-        connectorLoopTest.start()
+        connectorLoopTest.start();
 
-        jest.advanceTimersByTime(INTERVAL * CALL_TIMES)
-        
-        connectorLoopTest.stop()
-        expect(mockCalledFn).toBeCalledTimes(CALL_TIMES)
+        jest.advanceTimersByTime(INTERVAL * CALL_TIMES);
 
-    })
+        connectorLoopTest.stop();
+        expect(mockCalledFn).toBeCalledTimes(CALL_TIMES);
 
-    it('should call function multiple times in the time specified with the provided arguments', () => {
-        const mockCalledFnWithArguments = jest.fn((x, y) => x + y)
+    });
 
-        const connectorLoopTest = new ConnectorLoop(mockCalledFnWithArguments, INTERVAL, 2, 3)
-        
-        connectorLoopTest.start()
+    it("should call function multiple times in the time specified with the provided arguments", () => {
+        const mockCalledFnWithArguments = jest.fn((x, y) => x + y);
 
-        jest.advanceTimersByTime(INTERVAL * CALL_TIMES)
+        const connectorLoopTest = new ConnectorLoop(mockCalledFnWithArguments, INTERVAL, 2, 3);
 
-        connectorLoopTest.stop()
-        expect(mockCalledFnWithArguments).toBeCalledWith(2, 3)
-        expect(mockCalledFnWithArguments).toBeCalledTimes(CALL_TIMES)
-        expect(mockCalledFnWithArguments).toHaveReturnedTimes(CALL_TIMES)
-        
-        for(let callNum = 1; callNum <= CALL_TIMES; callNum++)
-            expect(mockCalledFnWithArguments).toHaveNthReturnedWith(callNum, 5)
+        connectorLoopTest.start();
 
-    })
+        jest.advanceTimersByTime(INTERVAL * CALL_TIMES);
 
-    it('should also call async functions correctly', () => {
-        const asyncMockFn = jest.fn()
+        connectorLoopTest.stop();
+        expect(mockCalledFnWithArguments).toBeCalledWith(2, 3);
+        expect(mockCalledFnWithArguments).toBeCalledTimes(CALL_TIMES);
+        expect(mockCalledFnWithArguments).toHaveReturnedTimes(CALL_TIMES);
 
-        const asyncFn = () => {
-            setTimeout(asyncMockFn, 10)
+        for (let callNum = 1; callNum <= CALL_TIMES; callNum++) {
+            expect(mockCalledFnWithArguments).toHaveNthReturnedWith(callNum, 5);
         }
 
-        const asyncConnectorLoop = new ConnectorLoop(asyncFn, 10)
+    });
 
-        asyncConnectorLoop.start()
+    it("should also call async functions correctly", () => {
+        const asyncMockFn = jest.fn();
 
-        jest.advanceTimersByTime(20)
+        const asyncFn = () => {
+            setTimeout(asyncMockFn, 10);
+        };
 
-        asyncConnectorLoop.stop()
+        const asyncConnectorLoop = new ConnectorLoop(asyncFn, 10);
 
-        expect(asyncMockFn).toHaveBeenCalledTimes(1)
-    })
+        asyncConnectorLoop.start();
 
-    it('should change operation correctly', () => {
-        const newMock = jest.fn((x, y) => x + y)
+        jest.advanceTimersByTime(20);
 
-        const connectorLoop = new ConnectorLoop((x,y) => x-y, INTERVAL)
+        asyncConnectorLoop.stop();
 
-        connectorLoop.changeOperation(newMock, 2, 3)
+        expect(asyncMockFn).toHaveBeenCalledTimes(1);
+    });
 
-        connectorLoop.start()
+    it("should change operation correctly", () => {
+        const newMock = jest.fn((x, y) => x + y);
 
-        jest.advanceTimersByTime(INTERVAL * CALL_TIMES)
+        const connectorLoop = new ConnectorLoop((x, y) => x - y, INTERVAL);
 
-        connectorLoop.stop()
+        connectorLoop.changeOperation(newMock, 2, 3);
 
-        expect(newMock).toHaveBeenCalledTimes(CALL_TIMES)
-        for(let callNum = 1; callNum <= CALL_TIMES; callNum++)
-            expect(newMock).toHaveNthReturnedWith(callNum, 5)
+        connectorLoop.start();
 
-    })
-})
+        jest.advanceTimersByTime(INTERVAL * CALL_TIMES);
+
+        connectorLoop.stop();
+
+        expect(newMock).toHaveBeenCalledTimes(CALL_TIMES);
+        for (let callNum = 1; callNum <= CALL_TIMES; callNum++) {
+            expect(newMock).toHaveNthReturnedWith(callNum, 5);
+        }
+
+    });
+});

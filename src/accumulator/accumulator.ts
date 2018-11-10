@@ -1,27 +1,28 @@
 class Accumulator {
 
-    _maxItems
-    _data
-    
+    public maxItems;
+    public items;
+
     constructor(maxItems) {
-        this._maxItems = maxItems
-        this._data = new Array()
+        this.maxItems = maxItems;
+        this.items = new Array();
     }
 
-    get data () {
-        return this._data
+    get data() {
+        return this.items;
     }
 
-    add (...items) {
-        if( ( this._data.length + items.length) <= this._maxItems)
-            this._data.push(...items)
-        else
-            throw new Error('Item limit excedeed')
+    public add(...items) {
+        if ( ( this.items.length + items.length) <= this.maxItems) {
+            this.items.push(...items);
+        } else {
+            throw new Error("Item limit excedeed");
+        }
     }
 
-    clear () {
-        this._data = new Array()
+    public clear() {
+        this.items = new Array();
     }
 }
 
-export default Accumulator
+export default Accumulator;

@@ -1,14 +1,14 @@
-'use strict'
+"use strict";
 
-import Joi from 'joi'
+import Joi from "joi";
 
 const schema = Joi.object().keys({
-    url: Joi.string().uri({scheme: ['http', 'https']}).required(),
-    port: Joi.number().positive().min(0).max(65535).required(),
-    maxSlmfMessages: Joi.number().positive().min(0).max(1024).required(),
     accumulationPeriod: Joi.number().positive().required(),
+    maxAccumulatedMessages: Joi.number().min(Joi.ref("maxSlmfMessages")).default(Joi.ref("maxSlmfMessages")),
     maxRetries: Joi.number().positive().default(3),
-    maxAccumulatedMessages: Joi.number().min(Joi.ref('maxSlmfMessages')).default(Joi.ref('maxSlmfMessages'))
-})
+    maxSlmfMessages: Joi.number().positive().min(0).max(1024).required(),
+    port: Joi.number().positive().min(0).max(65535).required(),
+    url: Joi.string().uri({scheme: ["http", "https"]}).required(),
+});
 
-export default schema
+export default schema;

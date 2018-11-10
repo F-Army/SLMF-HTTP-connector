@@ -1,1 +1,1 @@
-export { default } from './accumulator'
+export { default } from "./accumulator";
