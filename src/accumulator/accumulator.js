@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 'use strict'
 
 class Accumulator {
@@ -12,7 +12,7 @@ class Accumulator {
     }
 
     
-    get data (): Array<{}> {
+    getData (): Array<{}> {
         return this._data
     }
 

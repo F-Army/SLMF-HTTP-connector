@@ -105,10 +105,10 @@ describe('Slmf Http Connector tests', () => {
         slmfHttpConnector.start()
 
         slmfHttpConnector.addMessages({data: 'data'})
-        expect(slmfHttpConnector._accumulator.data.length).toBe(1)
+        expect(slmfHttpConnector._accumulator.getData().length).toBe(1)
         jest.advanceTimersByTime(slmfHttpConnector.settings.accumulationPeriod)
 
-        expect(slmfHttpConnector._accumulator.data.length).toBe(0)
+        expect(slmfHttpConnector._accumulator.getData().length).toBe(0)
 
         slmfHttpConnector.stop()
     })

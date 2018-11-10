@@ -29,8 +29,8 @@ class SlmfHttpConnector {
         this._accumulator = new Accumulator(this._settings.maxAccumulatedMessages)
 
         this._loop = new ConnectorLoop( async (): Promise<void> => {
-            if(this._accumulator.data.length > 0) {
-                const messages = copyArray(this._accumulator.data)
+            if(this._accumulator.getData().length > 0) {
+                const messages = copyArray(this._accumulator.getData())
                 this._accumulator.clear()
                 await axios.post(this._settings.url, {data: messages})
             }

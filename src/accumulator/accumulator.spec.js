@@ -12,8 +12,8 @@ describe('Accumulator tests', () => {
 
         acc.add(object1)
 
-        expect(acc.data[0]).toHaveProperty('cat')
-        expect(acc.data[0]).toHaveProperty('dog')
+        expect(acc.getData()[0]).toHaveProperty('cat')
+        expect(acc.getData()[0]).toHaveProperty('dog')
     })
 
     it('shuld not accumulate data if it exceeeds max number of items', done => {
@@ -34,6 +34,6 @@ describe('Accumulator tests', () => {
         
         acc.clear()
 
-        expect(acc.data[0]).toBeUndefined()
+        expect(acc.getData()[0]).toBeUndefined()
     })
 })
