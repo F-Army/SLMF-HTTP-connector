@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest src",
     "linter": "eslint .",
-    "build": "babel src/ --out-dir lib/",
+    "build": "babel src/ --out-dir lib --extensions '.js, .ts'",
     "prepublishOnly": "npm run build"
   },
   "repository": {
@@ -34,6 +34,7 @@
     "@babel/cli": "^7.1.5",
     "@babel/core": "^7.1.5",
     "@babel/preset-env": "^7.1.5",
+    "@babel/preset-typescript": "^7.1.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^23.6.0",
     "eslint": "^5.8.0",
