@@ -11,6 +11,7 @@ class Accumulator {
         this._data = []
     }
 
+    
     get data (): Array<{}> {
         return this._data
     }

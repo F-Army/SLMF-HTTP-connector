@@ -1,21 +1,27 @@
+// @flow
 'use strict'
 
 class ConnectorLoop {
-    constructor(operation, interval, ...fnArguments) {
+    _operation: Function
+    _interval: number
+    _fnArguments: Array<any>
+    _loopHandler: IntervalID
+
+    constructor(operation: Function, interval: number, ...fnArguments: Array<any>): void {
         this._operation = operation
         this._interval = interval
         this._fnArguments = fnArguments
     }
 
-    start () {
+    start (): void {
         this._loopHandler = setInterval(this._operation, this._interval, ...this._fnArguments)
     }
 
-    stop () {
+    stop (): void {
         clearInterval(this._loopHandler)
     }
 
-    changeOperation (operation, ...fnArguments) {
+    changeOperation (operation: Function, ...fnArguments: Array<any>): void {
         this._operation = operation
         this._fnArguments = fnArguments
     }
