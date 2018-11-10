@@ -1,3 +1,3 @@
 //export { default } from './slmfHttpConnector'
 
-module.exports = require('./lib/slmfHttpConnector')
+module.exports = require("./lib/slmfHttpConnector");
