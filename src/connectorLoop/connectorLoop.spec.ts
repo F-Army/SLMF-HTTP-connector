@@ -60,12 +60,12 @@ describe("Connector loop test", () => {
         expect(asyncMockFn).toHaveBeenCalledTimes(1);
     });
 
-    it("should change operation correctly", () => {
+    it("should change routine correctly", () => {
         const newMock = jest.fn((x, y) => x + y);
 
         const connectorLoop = new ConnectorLoop((x, y) => x - y, INTERVAL);
 
-        connectorLoop.changeOperation(newMock, 2, 3);
+        connectorLoop.changeRoutine(newMock, 2, 3);
 
         connectorLoop.start();
 
