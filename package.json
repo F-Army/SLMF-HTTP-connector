@@ -4,7 +4,7 @@
   "description": "Simple location message format HTTP Connector based on standard ISO/IEC 24730-1:2014 ",
   "main": "./index.js",
   "scripts": {
-    "test": "npm run build && jest __tests__",
+    "test": "npm run build && jest lib",
     "linter": "eslint .",
     "build": "babel src/ --out-dir lib --extensions '.ts'",
     "prepublishOnly": "npm run build"

@@ -1,6 +1,6 @@
 'use strict'
 
-import Accumulator from '../lib/accumulator'
+import Accumulator from './accumulator'
 
 describe('Accumulator tests', () => {
     it('should accumulate data', () => {

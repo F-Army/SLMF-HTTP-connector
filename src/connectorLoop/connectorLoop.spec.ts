@@ -1,6 +1,6 @@
 'use strict'
 
-import ConnectorLoop from '../lib/connectorLoop'
+import ConnectorLoop from './connectorLoop'
 
 const CALL_TIMES = 2
 const INTERVAL = 1
