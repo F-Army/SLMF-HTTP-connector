@@ -31,7 +31,6 @@ class SlmfHttpConnector {
                 for (let i = 0; i < shifts; i++) {
                     messages.push(this.accumulator.data.shift());
                 }
-                this.accumulator.clear();
                 await axios.post(this.settings.url, {data: messages});
             }
         }, this.settings.accumulationPeriod);
