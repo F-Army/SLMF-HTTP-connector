@@ -4,23 +4,24 @@ jest.mock("axios");
 jest.useFakeTimers();
 
 import axios from "axios";
+import ConnectorSettings from "../connectorSettings";
 import SlmfHttpConnector from "./slmfHttpConnector";
 
-const initialSettings = {
+const initialSettings: ConnectorSettings = new ConnectorSettings({
     accumulationPeriod : 500,
     maxSlmfMessages : 512,
     port : 80,
-    url : "http://127.0.0.1",
-};
+    url: "http://127.0.0.1",
+});
 
-const nextSettings = {
+const nextSettings: ConnectorSettings = new ConnectorSettings({
     accumulationPeriod : 500,
     maxAccumulatedMessages : 1024,
     maxRetries : 15,
     maxSlmfMessages : 512,
     port : 8080,
     url : "http://127.0.0.1",
-};
+});
 
 const slmfHttpConnector = new SlmfHttpConnector(initialSettings);
 
@@ -58,7 +59,7 @@ describe("Slmf Http Connector tests", () => {
             url : "random",
         };
         try {
-            slmfHttpConnector.settings = wrongSettings;
+            slmfHttpConnector.settings = new ConnectorSettings(wrongSettings);
         } catch (error) {
             expect(error.message).toBe("Invalid settings");
         }
