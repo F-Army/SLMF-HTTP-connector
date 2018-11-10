@@ -6,6 +6,7 @@
   "scripts": {
     "test": "npm run build && jest lib",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
+    "type-check": "tsc",
     "build": "babel src/ --out-dir lib --extensions '.ts'",
     "prepublishOnly": "npm run build"
   },
