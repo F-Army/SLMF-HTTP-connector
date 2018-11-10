@@ -15,6 +15,8 @@ class SlmfHttpConnector {
     public accumulator;
     public loop;
 
+    private _settings;
+
     constructor(settings) {
         this.settings = settings; // N.B. this.settings not this._settings because it will use the set function
         this.running = false;
