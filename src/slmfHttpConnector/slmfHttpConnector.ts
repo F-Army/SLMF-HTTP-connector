@@ -25,7 +25,17 @@ class SlmfHttpConnector {
             if (this.accumulator.data.length > 0) {
                 const messages = copyArray(this.accumulator.data);
                 this.accumulator.clear();
-                await axios.post(this.settings.url, {data: messages});
+                let tries = 0;
+
+                do {
+                    try {
+                        await axios.post(this.settings.url, {data: messages});
+                        break;
+                    } catch (error) {
+                        tries++;
+                    }
+                } while (tries < this.settings.maxRetries);
+
             }
         }, this.settings.accumulationPeriod);
     }
