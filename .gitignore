@@ -36,8 +36,9 @@ build/Release
 node_modules/
 jspm_packages/
 
-# babel compiled folder
+# babel compiled folder and files
 lib/
+index.js
 
 # TypeScript v1 declaration files
 typings/

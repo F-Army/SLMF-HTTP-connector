@@ -58,6 +58,7 @@
   },
   "exclude": [
     "**/*.spec.ts",
+    "index.ts",
     "lib"
   ]
 }
