@@ -1,3 +1,5 @@
+// @flow
+
 'use strict'
 
 import Joi from 'joi'
@@ -6,27 +8,36 @@ import axios from 'axios'
 import settingsSchema from '../settings'
 import ConnectorLoop from '../connectorLoop'
 import Accumulator from '../accumulator'
-
 import { copyArray } from '../utils'
 
-
-
 class SlmfHttpConnector {
-    constructor(settings) {
+    _settings: {
+        url: string,
+        port: number,
+        maxSlmfMessages: number,
+        accumulationPeriod: number,
+        maxRetries: number,
+        maxAccumulatedMessages: number
+    }
+    _running: boolean
+    _accumulator: Accumulator
+    _loop: ConnectorLoop
+
+    constructor(settings: {}): void {
         this.settings = settings // N.B. this.settings not this._settings because it will use the set function
         this._running = false
-        this._accumulator = new Accumulator(this.settings.maxAccumulatedMessages)
+        this._accumulator = new Accumulator(this._settings.maxAccumulatedMessages)
 
-        this._loop = new ConnectorLoop( async () => {
+        this._loop = new ConnectorLoop( async (): Promise<void> => {
             if(this._accumulator.data.length > 0) {
                 const messages = copyArray(this._accumulator.data)
                 this._accumulator.clear()
-                await axios.post(this.settings.url, {data: messages})
+                await axios.post(this._settings.url, {data: messages})
             }
-        }, this.settings.accumulationPeriod)
+        }, this._settings.accumulationPeriod)
     }
 
-    set settings(settings) {
+    set settings(settings: {}): void {
         const { error, value } = Joi.validate(settings, settingsSchema)
         if(!error)
             this._settings = value
@@ -34,21 +45,21 @@ class SlmfHttpConnector {
             throw new Error('Invalid settings')
     }
 
-    get settings () { return this._settings }
+    get settings (): {} { return this._settings }
 
-    isRunning () { return this._running }
+    isRunning (): boolean { return this._running }
 
-    start () { 
+    start (): void { 
         this._running = true 
         this._loop.start()
     }
 
-    stop () { 
+    stop (): void { 
         this._running = false 
         this._loop.stop()
     }
 
-    addMessages (...messages) {
+    addMessages (...messages: Array<{}>): void {
         this._accumulator.add(...messages)
     }
 }
