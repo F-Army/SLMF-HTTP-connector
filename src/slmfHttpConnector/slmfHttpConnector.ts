@@ -6,8 +6,6 @@ import Accumulator from "../accumulator";
 import ConnectorLoop from "../connectorLoop";
 import ConnectorSettings from "../connectorSettings";
 
-import { copyArray } from "../utils";
-
 class SlmfHttpConnector {
 
     public readonly accumulator: Accumulator;
