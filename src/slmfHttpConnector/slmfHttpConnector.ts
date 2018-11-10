@@ -11,16 +11,32 @@ import { copyArray } from "../utils";
 
 class SlmfHttpConnector {
 
-    public accumulator;
-    public loop;
-    public running;
+    public readonly accumulator: Accumulator;
 
-    private _settings;
+    private loop: ConnectorLoop;
+    private running: boolean;
 
-    constructor(settings) {
+    private _settings!: {
+        accumulationPeriod: number,
+        maxAccumulatedMessages?: number,
+        maxRetries?: number,
+        maxSlmfMessages: number,
+        port: number,
+        url: string,
+    };
+
+    constructor(
+        settings: {
+            accumulationPeriod: number,
+            maxAccumulatedMessages?: number,
+            maxRetries?: number,
+            maxSlmfMessages: number,
+            port: number,
+            url: string,
+    }) {
         this.settings = settings; // N.B. this.settings not this._settings because it will use the set function
         this.running = false;
-        this.accumulator = new Accumulator(this.settings.maxAccumulatedMessages);
+        this.accumulator = new Accumulator(this.settings.maxAccumulatedMessages!);
 
         this.loop = new ConnectorLoop( async () => {
             if (this.accumulator.data.length > 0) {
@@ -54,7 +70,7 @@ class SlmfHttpConnector {
         this.loop.stop();
     }
 
-    public addMessages(...messages) {
+    public addMessages(...messages: object[]) {
         this.accumulator.add(...messages);
     }
 }
