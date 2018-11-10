@@ -33,10 +33,12 @@
   "homepage": "https://github.com/F-Army/SLMF-HTTP-connector#readme",
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-eslint": "^10.0.1",
     "babel-jest": "^23.6.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-flow": "^6.23.0",
     "eslint": "^5.8.0",
+    "eslint-plugin-flowtype": "^3.2.0",
     "flow-bin": "^0.86.0",
     "jest": "^23.6.0"
   },
