@@ -57,7 +57,7 @@
             2,
             "always",
             {
-                "annotateUndefined": "never"
+                "annotateUndefined": "always"
             }
         ],
         "flowtype/require-valid-file-annotation": 2,

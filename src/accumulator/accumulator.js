@@ -1,22 +1,29 @@
+// @flow
+'use strict'
+
 class Accumulator {
-    constructor(maxItems) {
+
+    _maxItems: number
+    _data: Array<{}>
+
+    constructor(maxItems: number): void {
         this._maxItems = maxItems
-        this._data = new Array()
+        this._data = []
     }
 
-    get data () {
+    get data (): Array<{}> {
         return this._data
     }
 
-    add (...items) {
+    add (...items: Array<{}>): void {
         if( ( this._data.length + items.length) <= this._maxItems)
             this._data.push(...items)
         else
             throw new Error('Item limit excedeed')
     }
 
-    clear () {
-        this._data = new Array()
+    clear (): void {
+        this._data = []
     }
 }
 
