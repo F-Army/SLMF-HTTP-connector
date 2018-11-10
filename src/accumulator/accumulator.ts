@@ -1,7 +1,7 @@
 class Accumulator {
 
-    public maxItems: number;
-    public items: object[];
+    private maxItems: number;
+    private items: object[];
 
     constructor(maxItems: number) {
         this.maxItems = maxItems;
