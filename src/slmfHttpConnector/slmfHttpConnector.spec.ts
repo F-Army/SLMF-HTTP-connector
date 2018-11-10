@@ -4,7 +4,7 @@ jest.mock("axios");
 jest.useFakeTimers();
 
 import axios from "axios";
-import SlmfHttpConnector from "../slmfHttpConnector";
+import SlmfHttpConnector from "./slmfHttpConnector";
 
 const initialSettings = {
     accumulationPeriod : 500,
