@@ -17,7 +17,7 @@ class SlmfHttpConnector {
     private running: boolean;
 
     constructor(settings: ConnectorSettings) {
-        this.settings = settings; // N.B. this.settings not this.settings$ because it will use the set function
+        this.settings = settings;
         this.running = false;
         this.accumulator = new Accumulator(this.settings.maxAccumulatedMessages);
 
