@@ -4,7 +4,7 @@
   "description": "Simple location message format HTTP Connector based on standard ISO/IEC 24730-1:2014 ",
   "main": "./index.js",
   "scripts": {
-    "test": "npm run build && jest lib",
+    "test": "jest",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "type-check": "tsc",
     "build": "babel src/ --out-dir lib --extensions '.ts'",
@@ -42,6 +42,7 @@
     "babel-jest": "^23.6.0",
     "jest": "^23.6.0",
     "regenerator-runtime": "^0.12.1",
+    "ts-jest": "^23.10.4",
     "tslint": "^5.11.0",
     "typescript": "^3.1.6"
   },
