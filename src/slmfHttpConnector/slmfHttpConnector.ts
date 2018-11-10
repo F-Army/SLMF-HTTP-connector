@@ -11,7 +11,6 @@ import { copyArray } from "../utils";
 class SlmfHttpConnector {
 
     public readonly accumulator: Accumulator;
-
     public settings: ConnectorSettings;
 
     private loop: ConnectorLoop;
