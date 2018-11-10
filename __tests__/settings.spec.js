@@ -2,7 +2,7 @@
 
 import  Joi from 'joi'
 
-import settingsSchema from './settings'
+import settingsSchema from '../lib/settings'
 
 describe('Configuration schema test', () => {
     it('should validate correct schema', () => {
