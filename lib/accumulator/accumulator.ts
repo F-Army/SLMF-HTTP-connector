@@ -1,7 +1,7 @@
-class Accumulator {
+class Accumulator<T> {
 
     private maxItems: number;
-    private items: object[];
+    private items: T[];
 
     constructor(maxItems: number) {
         this.maxItems = maxItems;
@@ -12,7 +12,7 @@ class Accumulator {
         return this.items;
     }
 
-    public add(...items: object[]) {
+    public add(...items: T[]) {
         if ( ( this.items.length + items.length) <= this.maxItems) {
             this.items.push(...items);
         } else {
