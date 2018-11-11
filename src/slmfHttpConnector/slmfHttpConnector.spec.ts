@@ -88,6 +88,21 @@ describe("Slmf Http Connector tests", () => {
 
     });
 
+    it("should call send post with the proper values", () => {
+        slmfHttpConnector.settings = nextSettings;
+        slmfHttpConnector.start();
+
+        for (let i = 0; i < 3; i++) {
+            slmfHttpConnector.addMessages({number: "one"}, {number: "two"});
+            jest.advanceTimersByTime(slmfHttpConnector.settings.accumulationPeriod);
+            expect(axios.post).toHaveBeenCalledWith(
+                slmfHttpConnector.settings.url,
+                {data: [{number: "one"}, {number: "two"}]},
+            );
+        }
+
+    });
+
     it("should delete data every time it sends the messages", () => {
 
         slmfHttpConnector.settings = nextSettings;
@@ -102,10 +117,11 @@ describe("Slmf Http Connector tests", () => {
         slmfHttpConnector.stop();
     });
 
-    it("should retry at faiilure", () => {
+    it("should retry at send failure", () => {
 
         const postBackup = axios.post;
 
+        // Mock axios.post
         axios.post = jest.fn(() => {
             throw new Error("I failed");
         });
@@ -116,7 +132,7 @@ describe("Slmf Http Connector tests", () => {
         slmfHttpConnector.start();
 
         for (let i = 0; i < CALLS; i++) {
-            slmfHttpConnector.addMessages({data: "data"});
+            slmfHttpConnector.addMessages({number: "one"});
             jest.advanceTimersByTime(slmfHttpConnector.settings.accumulationPeriod);
         }
 
@@ -124,6 +140,7 @@ describe("Slmf Http Connector tests", () => {
 
         expect(axios.post).toHaveBeenCalledTimes(CALLS * RETRY_TIMES);
 
+        // Revert axios.post to original function
         axios.post = postBackup;
     });
 
