@@ -32,6 +32,7 @@ const slmfHttpConnector = new SlmfHttpConnector(initialSettings);
 describe("Slmf Http Connector tests", () => {
     beforeEach(() => {
         slmfHttpConnector.stop();
+        slmfHttpConnector.accumulator.clear();
     });
 
     it("should start stopped", () => {
@@ -107,10 +108,13 @@ describe("Slmf Http Connector tests", () => {
         slmfHttpConnector.settings = nextSettings;
         slmfHttpConnector.start();
 
-        slmfHttpConnector.addMessages({number: "xxx"}, {number: "xxx"}, {number: "xxx"});
-        expect(slmfHttpConnector.accumulator.data.length).toBe(3);
+        const messages = [{number: "xxx"}, {number: "xxx"}, {number: "xxx"}];
+        slmfHttpConnector.addMessages(...messages);
+        expect(slmfHttpConnector.accumulator.data.length).toBe(messages.length);
         jest.advanceTimersByTime(slmfHttpConnector.settings.accumulationPeriod);
-        expect(slmfHttpConnector.accumulator.data.length).toBe(1);
+
+        expect(slmfHttpConnector.accumulator.data.length)
+        .toBe(messages.length - slmfHttpConnector.settings.maxSlmfMessages);
 
         slmfHttpConnector.stop();
     });
