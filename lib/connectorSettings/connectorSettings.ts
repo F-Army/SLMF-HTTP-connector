@@ -36,8 +36,8 @@ class ConnectorSettings {
             }
 
             this.accumulationPeriod = validation.value.accumulationPeriod;
-            this.maxAccumulatedMessages = validation.value.maxAccumulatedMessages || validation.value.maxSlmfMessages;
-            this.maxRetries = validation.value.maxRetries || DEFAULT_RETRIES;
+            this.maxAccumulatedMessages = validation.value.maxAccumulatedMessages!;
+            this.maxRetries = validation.value.maxRetries!;
             this.maxSlmfMessages = validation.value.maxSlmfMessages;
             this.port = validation.value.port;
             this.url = validation.value.url;
