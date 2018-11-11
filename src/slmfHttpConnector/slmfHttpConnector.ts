@@ -66,6 +66,8 @@ class SlmfHttpConnector {
                     // Make room for new messages
                     if (this.accumulator.data.length > 0) {
                         this.accumulator.data.shift();
+                    } else {
+                        break;
                     }
                 }
 
