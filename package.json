@@ -2,15 +2,12 @@
   "name": "slmf-http-connector",
   "version": "0.0.0",
   "description": "Simple location message format HTTP Connector based on standard ISO/IEC 24730-1:2014 ",
-  "main": "./index.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "test": "jest --config jest.config.json",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
-    "type-check": "tsc",
-    "type-check:watch": "npm run type-check -- --watch",
-    "build:types": "tsc --emitDeclarationOnly",
-    "build:js": "babel index.ts --out-dir . --extensions \".ts\" && babel src --out-dir lib --extensions \".ts\"",
-    "build": "npm run build:types && npm run build:js",
+    "build": "tsc",
     "prepublishOnly": "npm run build"
   },
   "repository": {
@@ -35,13 +32,9 @@
   },
   "homepage": "https://github.com/F-Army/SLMF-HTTP-connector#readme",
   "devDependencies": {
-    "@babel/cli": "^7.1.5",
-    "@babel/core": "^7.1.5",
-    "@babel/preset-env": "^7.1.5",
-    "@babel/preset-typescript": "^7.1.0",
     "@types/jest": "^23.3.9",
     "@types/joi": "^14.0.0",
-    "babel-core": "^7.0.0-bridge.0",
+    "@types/node": "^10.12.5",
     "jest": "^23.6.0",
     "regenerator-runtime": "^0.12.1",
     "ts-jest": "^23.10.4",
