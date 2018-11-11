@@ -45,8 +45,5 @@
   "dependencies": {
     "axios": "^0.18.0",
     "joi": "^14.0.4"
-  },
-  "engines": {
-    "node": ">=8"
   }
 }
