@@ -5,7 +5,7 @@ class ConnectorLoop {
     private routine: (...args: any) => any;
     private interval: number;
     private fnArguments: any;
-    private loopHandler!: number;
+    private loopHandler!: NodeJS.Timeout;
 
     constructor(routine: (...args: any) => any, interval: number, ...fnArguments: any) {
         this.routine = routine;

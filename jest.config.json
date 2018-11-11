@@ -8,7 +8,7 @@
         "node"
     ],
     "roots": [
-        "<rootDir>/src"
+        "<rootDir>/lib"
     ],
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$",
     "transform": {
