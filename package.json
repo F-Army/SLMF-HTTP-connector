@@ -6,7 +6,6 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "test": "jest --config jest.config.json && cat ./coverage/lcov.info | coveralls",
-    "coverage": "npm test -- --coverage",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "build": "tsc",
     "prepublishOnly": "npm install && npm run build"
