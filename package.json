@@ -8,7 +8,7 @@
     "test": "jest --config jest.config.json",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "build": "tsc",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm install && npm run build"
   },
   "repository": {
     "type": "git",
