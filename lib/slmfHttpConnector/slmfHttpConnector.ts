@@ -61,38 +61,17 @@ class SlmfHttpConnector {
         try {
             this.accumulator.add(...messages);
         } catch (error) {
-            if (error.message === "Item limit excedeed") {
-                for (const message of messages) {
-                    // Make room for new messages
-                    if (this.accumulator.data.length > 0) {
-                        this.accumulator.data.shift();
-                    } else {
-                        break;
-                    }
-                }
-
-                if (messages.length <= this.settings.maxAccumulatedMessages) {
-                    // Insert every message
-                    try {
-                        this.accumulator.add(...messages);
-                    } catch (error) {
-                        throw new Error("Unexpected failure");
-                    }
-                } else {
-                    // Insert just the last messages
-                    while (messages.length > this.settings.maxAccumulatedMessages) {
-                        messages.shift();
-                    }
-
-                    try {
-                        this.accumulator.add(...messages);
-                    } catch (error) {
-                        throw new Error("Unexpected failure");
-                    }
-                }
-            } else {
-                throw new Error("Unexpected failure");
+            // Make sure to add at least the most recent messages if you can't accumulate all the messages
+            while (messages.length > this.settings.maxAccumulatedMessages) {
+                messages.shift();
             }
+
+            // Make room for new messages
+            for (const message of messages) {
+                this.accumulator.data.shift();
+            }
+
+            this.accumulator.add(...messages);
         }
     }
 }
