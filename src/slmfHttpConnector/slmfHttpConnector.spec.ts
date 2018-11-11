@@ -20,9 +20,9 @@ const RETRY_TIMES = 3;
 
 const nextSettings: ConnectorSettings = new ConnectorSettings({
     accumulationPeriod : 500,
-    maxAccumulatedMessages : 1024,
+    maxAccumulatedMessages : 3,
     maxRetries : RETRY_TIMES,
-    maxSlmfMessages : 512,
+    maxSlmfMessages : 2,
     port : 8080,
     url : "http://127.0.0.1",
 });
@@ -101,6 +101,18 @@ describe("Slmf Http Connector tests", () => {
             );
         }
 
+    });
+
+    it("should not send more data than maxSlmfMessages", () => {
+        slmfHttpConnector.settings = nextSettings;
+        slmfHttpConnector.start();
+
+        slmfHttpConnector.addMessages({number: "xxx"}, {number: "xxx"}, {number: "xxx"});
+        expect(slmfHttpConnector.accumulator.data.length).toBe(3);
+        jest.advanceTimersByTime(slmfHttpConnector.settings.accumulationPeriod);
+        expect(slmfHttpConnector.accumulator.data.length).toBe(1);
+
+        slmfHttpConnector.stop();
     });
 
     it("should delete data every time it sends the messages", () => {
