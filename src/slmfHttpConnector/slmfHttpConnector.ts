@@ -9,7 +9,7 @@ import ConnectorSettings from "../connectorSettings";
 class SlmfHttpConnector {
 
     public readonly accumulator: Accumulator;
-    public settings: ConnectorSettings;
+    public readonly settings: ConnectorSettings;
 
     private loop: ConnectorLoop;
     private running: boolean;

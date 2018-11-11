@@ -9,16 +9,9 @@ import axios from "axios";
 import ConnectorSettings from "../connectorSettings";
 import SlmfHttpConnector from "./slmfHttpConnector";
 
-const initialSettings: ConnectorSettings = new ConnectorSettings({
-    accumulationPeriod : 500,
-    maxSlmfMessages : 512,
-    port : 80,
-    url: "http://127.0.0.1",
-});
-
 const RETRY_TIMES = 3;
 
-const nextSettings: ConnectorSettings = new ConnectorSettings({
+const settings: ConnectorSettings = new ConnectorSettings({
     accumulationPeriod : 500,
     maxAccumulatedMessages : 3,
     maxRetries : RETRY_TIMES,
@@ -27,7 +20,7 @@ const nextSettings: ConnectorSettings = new ConnectorSettings({
     url : "http://127.0.0.1",
 });
 
-const slmfHttpConnector = new SlmfHttpConnector(initialSettings);
+const slmfHttpConnector = new SlmfHttpConnector(settings);
 
 describe("Slmf Http Connector tests", () => {
     beforeEach(() => {
@@ -50,12 +43,6 @@ describe("Slmf Http Connector tests", () => {
         expect(slmfHttpConnector.isRunning()).toBe(false);
     });
 
-    it("should set the proper configuration when valid", () => {
-
-        slmfHttpConnector.settings = nextSettings;
-        expect(slmfHttpConnector.settings).toEqual(nextSettings);
-    });
-
     it("should throw error on invalid configuration set", () => {
         const wrongSettings = {
             accumulationPeriod: -1000,
@@ -64,7 +51,7 @@ describe("Slmf Http Connector tests", () => {
             url : "random",
         };
         try {
-            slmfHttpConnector.settings = new ConnectorSettings(wrongSettings);
+            const slmfHttpConnectorFailed = new SlmfHttpConnector(new ConnectorSettings(wrongSettings));
         } catch (error) {
             expect(error.message).toBe("Invalid settings");
         }
@@ -75,7 +62,6 @@ describe("Slmf Http Connector tests", () => {
 
         const CALLS = 3;
 
-        slmfHttpConnector.settings = nextSettings;
         slmfHttpConnector.start();
 
         for (let i = 0; i < CALLS; i++) {
@@ -90,7 +76,6 @@ describe("Slmf Http Connector tests", () => {
     });
 
     it("should call send post with the proper values", () => {
-        slmfHttpConnector.settings = nextSettings;
         slmfHttpConnector.start();
 
         for (let i = 0; i < 3; i++) {
@@ -105,7 +90,6 @@ describe("Slmf Http Connector tests", () => {
     });
 
     it("should not send more data than maxSlmfMessages", () => {
-        slmfHttpConnector.settings = nextSettings;
         slmfHttpConnector.start();
 
         const messages = [{number: "xxx"}, {number: "xxx"}, {number: "xxx"}];
@@ -121,7 +105,6 @@ describe("Slmf Http Connector tests", () => {
 
     it("should delete data every time it sends the messages", () => {
 
-        slmfHttpConnector.settings = nextSettings;
         slmfHttpConnector.start();
 
         slmfHttpConnector.addMessages({data: "data"});
@@ -144,7 +127,6 @@ describe("Slmf Http Connector tests", () => {
 
         const CALLS = 3;
 
-        slmfHttpConnector.settings = nextSettings;
         slmfHttpConnector.start();
 
         for (let i = 0; i < CALLS; i++) {
