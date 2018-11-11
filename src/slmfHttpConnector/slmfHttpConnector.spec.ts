@@ -1,9 +1,11 @@
 "use strict";
 
 jest.mock("axios");
+
 jest.useFakeTimers();
 
 import axios from "axios";
+
 import ConnectorSettings from "../connectorSettings";
 import SlmfHttpConnector from "./slmfHttpConnector";
 
@@ -14,10 +16,12 @@ const initialSettings: ConnectorSettings = new ConnectorSettings({
     url: "http://127.0.0.1",
 });
 
+const RETRY_TIMES = 3;
+
 const nextSettings: ConnectorSettings = new ConnectorSettings({
     accumulationPeriod : 500,
     maxAccumulatedMessages : 1024,
-    maxRetries : 15,
+    maxRetries : RETRY_TIMES,
     maxSlmfMessages : 512,
     port : 8080,
     url : "http://127.0.0.1",
@@ -96,6 +100,31 @@ describe("Slmf Http Connector tests", () => {
         expect(slmfHttpConnector.accumulator.data.length).toBe(0);
 
         slmfHttpConnector.stop();
+    });
+
+    it("should retry at faiilure", () => {
+
+        const postBackup = axios.post;
+
+        axios.post = jest.fn(() => {
+            throw new Error("I failed");
+        });
+
+        const CALLS = 3;
+
+        slmfHttpConnector.settings = nextSettings;
+        slmfHttpConnector.start();
+
+        for (let i = 0; i < CALLS; i++) {
+            slmfHttpConnector.addMessages({data: "data"});
+            jest.advanceTimersByTime(slmfHttpConnector.settings.accumulationPeriod);
+        }
+
+        slmfHttpConnector.stop();
+
+        expect(axios.post).toHaveBeenCalledTimes(CALLS * RETRY_TIMES);
+
+        axios.post = postBackup;
     });
 
 });
