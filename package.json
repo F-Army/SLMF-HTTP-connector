@@ -8,6 +8,7 @@
     "test": "jest --config jest.config.json && cat ./coverage/lcov.info | coveralls",
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "build": "tsc",
+    "docs": "typedoc --options ./typedocconfig.ts",
     "prepublishOnly": "npm install && npm run build"
   },
   "repository": {
