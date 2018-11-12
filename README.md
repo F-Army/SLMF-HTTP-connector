@@ -4,7 +4,7 @@
 </div>
 
 [![Build Status](https://travis-ci.org/F-Army/SLMF-HTTP-connector.svg?branch=master)](https://travis-ci.org/F-Army/SLMF-HTTP-connector)
-[![Coverage Status](https://coveralls.io/repos/github/F-Army/SLMF-HTTP-connector/badge.svg?branch=master)](https://coveralls.io/github/F-Army/SLMF-HTTP-connector?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/F-Army/SLMF-HTTP-connector/badge.svg?branch=master&kill_cache=1)](https://coveralls.io/github/F-Army/SLMF-HTTP-connector?branch=master)
 [![codebeat badge](https://codebeat.co/badges/f5a1e2a2-71da-46af-b8fc-37d7beec7fb2)](https://codebeat.co/projects/github-com-f-army-slmf-http-connector-master)
 [![Known Vulnerabilities](https://snyk.io/test/github/F-Army/SLMF-HTTP-connector/badge.svg)](https://snyk.io/test/github/F-Army/SLMF-HTTP-connector)
 
