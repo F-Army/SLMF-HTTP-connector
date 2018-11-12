@@ -3,9 +3,9 @@
 import axios from "axios";
 import axiosRetry from "axios-retry";
 
-import Accumulator from "../accumulator";
-import ConnectorLoop from "../connectorLoop";
-import ConnectorSettings from "../connectorSettings";
+import Accumulator from "../Accumulator";
+import ConnectorLoop from "../ConnectorLoop";
+import ConnectorSettings from "../ConnectorSettings";
 import { highestPossible, transferData } from "../utils";
 
 class SlmfHttpConnector {

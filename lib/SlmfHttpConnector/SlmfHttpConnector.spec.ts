@@ -6,8 +6,8 @@ jest.useFakeTimers();
 
 import axios from "axios";
 
-import ConnectorSettings from "../connectorSettings";
-import SlmfHttpConnector from "./slmfHttpConnector";
+import ConnectorSettings from "../ConnectorSettings";
+import SlmfHttpConnector from "./SlmfHttpConnector";
 
 const RETRY_TIMES = 3;
 

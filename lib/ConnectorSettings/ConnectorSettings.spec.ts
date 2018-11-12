@@ -2,7 +2,7 @@
 
 import Joi from "joi";
 
-import ConnectorSettings from "./connectorSettings";
+import ConnectorSettings from "./ConnectorSettings";
 
 describe("Configuration schema test", () => {
     it("should validate correct schema", (done) => {

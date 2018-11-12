@@ -1,6 +1,6 @@
 "use strict";
 
-import Accumulator from "./accumulator";
+import Accumulator from "./Accumulator";
 
 describe("Accumulator tests", () => {
     it("should accumulate data", () => {
