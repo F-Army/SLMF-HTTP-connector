@@ -1,6 +1,6 @@
 import Joi from "joi";
 import xml2js from "xml2js";
-import { bytesMaxValue } from "./../utils/mathUtils";
+import { bytesMaxValue, removeUndefinedProperties } from "./../utils";
 
 const eightBytesMaxValue = bytesMaxValue(8);
 const OneHundredTwentyThreeBytesMaxValue = bytesMaxValue(123);
@@ -120,8 +120,7 @@ class LocationMessage {
         };
 
         // Remove properties that are undefined to not store them in the xml
-        Object.keys(xmlObject).forEach((key) => (xmlObject as any)[key] === undefined ?
-                                        delete (xmlObject as any)[key] : "");
+        removeUndefinedProperties(xmlObject);
 
         /* tslint:enable:object-literal-sort-keys */
         const builder = new xml2js.Builder({rootName: "SLMF", headless: true});
