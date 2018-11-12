@@ -75,6 +75,14 @@ describe("Slmf Http Connector tests", () => {
 
     });
 
+    it("shouldn't do a post request when there are no messages", () => {
+        axios.post = jest.fn();
+        slmfHttpConnector.start();
+        jest.advanceTimersByTime(slmfHttpConnector.settings.accumulationPeriod * 100);
+
+        expect(axios.post).toHaveBeenCalledTimes(0);
+    });
+
     it("should call send post with the proper values", () => {
         slmfHttpConnector.start();
 
@@ -114,6 +122,19 @@ describe("Slmf Http Connector tests", () => {
         expect(slmfHttpConnector.accumulator.data.length).toBe(0);
 
         slmfHttpConnector.stop();
+    });
+
+    it("should discard data if necesary", () => {
+        slmfHttpConnector.addMessages({num: 1}, {num: 2}, {num: 3});
+        slmfHttpConnector.addMessages({num: -1}, {num: -2}, {num: -3});
+
+        expect(slmfHttpConnector.accumulator.data).toMatchObject([{num: -1}, {num: -2}, {num: -3}]);
+
+    });
+
+    it("should insert the last messages if there is no room", () => {
+        slmfHttpConnector.addMessages({num: 1}, {num: 2}, {num: 3}, {num: 4});
+        expect(slmfHttpConnector.accumulator.data).toMatchObject([{num: 2}, {num: 3}, {num: 4}]);
     });
 
     it("should retry at send failure", () => {

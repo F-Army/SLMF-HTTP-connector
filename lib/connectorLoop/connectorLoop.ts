@@ -20,11 +20,6 @@ class ConnectorLoop {
     public stop() {
         clearInterval(this.loopHandler);
     }
-
-    public changeRoutine(routine: (...args: any) => any, ...fnArguments: any) {
-        this.routine = routine;
-        this.fnArguments = fnArguments;
-    }
 }
 
 export default ConnectorLoop;
