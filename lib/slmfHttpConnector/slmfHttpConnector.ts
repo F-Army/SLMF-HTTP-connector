@@ -5,7 +5,7 @@ import axios from "axios";
 import Accumulator from "../accumulator";
 import ConnectorLoop from "../connectorLoop";
 import ConnectorSettings from "../connectorSettings";
-import { highestPossible } from "../utils";
+import { highestPossible, transferData } from "../utils";
 
 class SlmfHttpConnector {
 
@@ -25,10 +25,9 @@ class SlmfHttpConnector {
             const messagesNumber = highestPossible(this.accumulator.data.length, this.settings.maxSlmfMessages);
 
             if (messagesNumber > 0) {
-                const messages = [];
-                for (let i = 0; i < messagesNumber; i++) {
-                    messages.push(this.accumulator.data.shift());
-                }
+                const messages: any[] = [];
+
+                transferData(this.accumulator.data, messages, messagesNumber);
 
                 let tries = 0;
 
