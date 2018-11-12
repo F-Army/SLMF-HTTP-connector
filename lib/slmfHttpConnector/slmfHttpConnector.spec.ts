@@ -124,6 +124,19 @@ describe("Slmf Http Connector tests", () => {
         slmfHttpConnector.stop();
     });
 
+    it("should discard data if necesary", () => {
+        slmfHttpConnector.addMessages({num: 1}, {num: 2}, {num: 3});
+        slmfHttpConnector.addMessages({num: -1}, {num: -2}, {num: -3});
+
+        expect(slmfHttpConnector.accumulator.data).toMatchObject([{num: -1}, {num: -2}, {num: -3}]);
+
+    });
+
+    it("should insert the last messages if there is no room", () => {
+        slmfHttpConnector.addMessages({num: 1}, {num: 2}, {num: 3}, {num: 4});
+        expect(slmfHttpConnector.accumulator.data).toMatchObject([{num: 2}, {num: 3}, {num: 4}]);
+    });
+
     it("should retry at send failure", () => {
 
         const postBackup = axios.post;
