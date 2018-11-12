@@ -5,7 +5,7 @@ import axios from "axios";
 import Accumulator from "../accumulator";
 import ConnectorLoop from "../connectorLoop";
 import ConnectorSettings from "../connectorSettings";
-import { highestPossible, transferData } from "../utils";
+import { highestPossible, shiftMany, transferData } from "../utils";
 
 class SlmfHttpConnector {
 
@@ -66,9 +66,7 @@ class SlmfHttpConnector {
             }
 
             // Make room for new messages
-            for (const message of messages) {
-                this.accumulator.data.shift();
-            }
+            shiftMany(this.accumulator.data, messages.length);
 
             this.accumulator.add(...messages);
         }
