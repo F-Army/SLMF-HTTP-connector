@@ -75,6 +75,14 @@ describe("Slmf Http Connector tests", () => {
 
     });
 
+    it("shouldn't do a post request when there are no messages", () => {
+        axios.post = jest.fn();
+        slmfHttpConnector.start();
+        jest.advanceTimersByTime(slmfHttpConnector.settings.accumulationPeriod * 100);
+
+        expect(axios.post).toHaveBeenCalledTimes(0);
+    });
+
     it("should call send post with the proper values", () => {
         slmfHttpConnector.start();
 
