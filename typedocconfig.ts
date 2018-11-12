@@ -1,4 +1,5 @@
 module.exports = {
+    exclude: "**/*.spec.ts",
     excludeExternals: true,
     excludePrivate: true,
     excludeProtected: true,
@@ -9,9 +10,11 @@ module.exports = {
     name: "SLMF-HTTP-connector",
     out: "./docs",
     plugin: "none",
-    readme: "README.md",
+    readme: "none",
     src: [
       "./index.ts",
+      "./lib/",
     ],
+    target: "ES5",
     tsconfig: "tsconfig.json",
   };
