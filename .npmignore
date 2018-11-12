@@ -5,3 +5,4 @@ jest.config.json
 tsconfig.json
 tslint.json
 .travis.yml
+typedocconfig.ts
