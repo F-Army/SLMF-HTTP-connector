@@ -61,8 +61,9 @@ class SlmfHttpConnector {
             this.accumulator.add(...messages);
         } catch (error) {
             // Make sure to add at least the most recent messages if you can't accumulate all the messages
-            if (messages.length > this.settings.maxAccumulatedMessages) {
-                messages.splice(0, messages.length - this.settings.maxAccumulatedMessages);
+            const discarded = messages.length - this.settings.maxAccumulatedMessages;
+            if (discarded > 0) {
+                messages.splice(0, discarded);
             }
 
             // Make room for new messages
