@@ -5,7 +5,7 @@ import axios from "axios";
 import Accumulator from "../accumulator";
 import ConnectorLoop from "../connectorLoop";
 import ConnectorSettings from "../connectorSettings";
-import { highestPossible, shiftMany, transferData } from "../utils";
+import { highestPossible, transferData } from "../utils";
 
 class SlmfHttpConnector {
 
@@ -61,12 +61,12 @@ class SlmfHttpConnector {
             this.accumulator.add(...messages);
         } catch (error) {
             // Make sure to add at least the most recent messages if you can't accumulate all the messages
-            while (messages.length > this.settings.maxAccumulatedMessages) {
-                messages.shift();
+            if (messages.length > this.settings.maxAccumulatedMessages) {
+                messages.splice(0, messages.length - this.settings.maxAccumulatedMessages);
             }
 
             // Make room for new messages
-            shiftMany(this.accumulator.data, messages.length);
+            this.accumulator.data.splice(0, messages.length);
 
             this.accumulator.add(...messages);
         }
