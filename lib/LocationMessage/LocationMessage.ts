@@ -1,4 +1,5 @@
 import Joi from "joi";
+import xml2js from "xml2js";
 import { bytesMaxValue } from "./../utils/mathUtils";
 
 const eightBytesMaxValue = bytesMaxValue(8);
@@ -36,6 +37,24 @@ interface ILocationData {
     antennaId?: number;
     data?: number;
     algorithm?: string;
+}
+
+interface ILocationDataXML {
+    src: string;
+    fmt: string;
+    idfmt: TagIdFormat;
+    tid: number;
+    x: number;
+    y: number;
+    z: number;
+    bat: number;
+    t: string;
+    cls?: string;
+    zon?: string;
+    exc?: string;
+    ant?: number;
+    dat?: number;
+    alg?: string;
 }
 
 /* tslint:disable:object-literal-sort-keys */
@@ -78,6 +97,36 @@ class LocationMessage {
     }
 
     get data() { return this.data$; }
+
+    public toXML(): string {
+        /* tslint:disable:object-literal-sort-keys */
+
+        const xmlObject: ILocationDataXML = {
+            src: this.data.source,
+            fmt: this.data.format,
+            idfmt: this.data.tagIdFormat,
+            tid: this.data.tagId,
+            x: this.data.position.x,
+            y: this.data.position.y,
+            z: this.data.position.z,
+            bat: this.data.battery,
+            t: this.data.timestamp.toISOString(),
+            cls: this.data.classification,
+            zon: this.data.zone,
+            exc: this.data.exciterId,
+            ant: this.data.antennaId,
+            dat: this.data.data,
+            alg: this.data.algorithm,
+        };
+
+        // Remove properties that are undefined to not store them in the xml
+        Object.keys(xmlObject).forEach((key) => (xmlObject as any)[key] === undefined ?
+                                        delete (xmlObject as any)[key] : "");
+
+        /* tslint:enable:object-literal-sort-keys */
+        const builder = new xml2js.Builder({rootName: "SLMF", headless: true});
+        return builder.buildObject(xmlObject);
+    }
 }
 
 export default LocationMessage;
