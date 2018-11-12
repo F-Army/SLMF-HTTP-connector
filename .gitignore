@@ -39,6 +39,9 @@ jspm_packages/
 # Distribution files
 dist/
 
+# Project generated documentation
+docs/
+
 # TypeScript v1 declaration files
 typings/
 

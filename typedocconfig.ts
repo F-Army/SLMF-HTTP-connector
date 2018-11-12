@@ -1,0 +1,20 @@
+module.exports = {
+    exclude: "**/*.spec.ts",
+    excludeExternals: true,
+    excludePrivate: true,
+    excludeProtected: true,
+    ignoreCompilerErrors: true,
+    includeDeclarations: true,
+    listInvalidSymbolLinks: true,
+    mode: "file",
+    name: "SLMF-HTTP-connector",
+    out: "./docs",
+    plugin: "none",
+    readme: "none",
+    src: [
+      "./index.ts",
+      "./lib/",
+    ],
+    target: "ES5",
+    tsconfig: "tsconfig.json",
+  };
