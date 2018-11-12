@@ -1,4 +1,8 @@
 import Joi from "joi";
+import { bytesMaxValue } from "./../utils/mathUtils";
+
+const eightBytesMaxValue = bytesMaxValue(8);
+const OneHundredTwentyThreeBytesMaxValue = bytesMaxValue(123);
 
 export enum BatteryStatus {
     Good,
@@ -33,16 +37,6 @@ interface ILocationData {
     data?: number;
     algorithm?: string;
 }
-
-const power = (base: number) => (exp: number) => Math.pow(base, exp);
-
-const byteMaxValue = power(2)(8) - 1;
-
-const bytesMaxValue = (bytes: number) => bytes * byteMaxValue;
-
-const eightBytesMaxValue = bytesMaxValue(8);
-
-const OneHundredTwentyThreeBytesMaxValue = bytesMaxValue(123);
 
 /* tslint:disable:object-literal-sort-keys */
 const schema = Joi.object().keys({
