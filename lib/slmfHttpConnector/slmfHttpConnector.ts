@@ -1,6 +1,7 @@
 "use strict";
 
 import axios from "axios";
+import axiosRetry from "axios-retry";
 
 import Accumulator from "../accumulator";
 import ConnectorLoop from "../connectorLoop";
@@ -26,20 +27,10 @@ class SlmfHttpConnector {
 
             if (messagesNumber > 0) {
                 const messages: any[] = [];
-
                 transferData(this.accumulator.data, messages, messagesNumber);
 
-                let tries = 0;
-
-                do {
-                    try {
-                        await axios.post(this.settings.url, {data: messages});
-                        break;
-                    } catch (error) {
-                        tries++;
-                    }
-                } while (tries < this.settings.maxRetries);
-
+                axiosRetry(axios, { retries: this.settings.maxRetries});
+                await axios.post(this.settings.url, {data: messages});
             }
         }, this.settings.accumulationPeriod);
     }

@@ -137,30 +137,4 @@ describe("Slmf Http Connector tests", () => {
         expect(slmfHttpConnector.accumulator.data).toMatchObject([{num: 2}, {num: 3}, {num: 4}]);
     });
 
-    it("should retry at send failure", () => {
-
-        const postBackup = axios.post;
-
-        // Mock axios.post
-        axios.post = jest.fn(() => {
-            throw new Error("I failed");
-        });
-
-        const CALLS = 3;
-
-        slmfHttpConnector.start();
-
-        for (let i = 0; i < CALLS; i++) {
-            slmfHttpConnector.addMessages({number: "one"});
-            jest.advanceTimersByTime(slmfHttpConnector.settings.accumulationPeriod);
-        }
-
-        slmfHttpConnector.stop();
-
-        expect(axios.post).toHaveBeenCalledTimes(CALLS * RETRY_TIMES);
-
-        // Revert axios.post to original function
-        axios.post = postBackup;
-    });
-
 });
