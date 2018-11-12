@@ -9,7 +9,7 @@
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "build": "tsc",
     "docs": "typedoc --options ./typedocconfig.ts",
-    "prepublishOnly": "npm install && npm run build"
+    "prepublishOnly": "rm -rf dist && npm install && npm run build"
   },
   "repository": {
     "type": "git",
