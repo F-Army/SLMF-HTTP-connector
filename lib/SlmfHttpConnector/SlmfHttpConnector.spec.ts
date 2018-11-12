@@ -44,12 +44,7 @@ describe("Slmf Http Connector tests", () => {
     });
 
     it("should throw error on invalid configuration set", () => {
-        const wrongSettings = {
-            accumulationPeriod: -1000,
-            maxSlmfMessages : 512,
-            port : -1,
-            url : "random",
-        };
+        const wrongSettings = {...settings, accumulationPeriod: -1000};
         try {
             const slmfHttpConnectorFailed = new SlmfHttpConnector(new ConnectorSettings(wrongSettings));
         } catch (error) {
