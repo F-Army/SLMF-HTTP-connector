@@ -24,15 +24,10 @@ class SlmfHttpConnector {
         this.accumulator = new Accumulator(this.settings.maxAccumulatedMessages);
 
         this.loop = new ConnectorLoop( async () => {
-
-            const messagesNumber = highestPossible(this.accumulator.data.length, this.settings.maxSlmfMessages);
-
-            if (messagesNumber > 0) {
-                const messages: any[] = [];
-                transferData(this.accumulator.data, messages, messagesNumber);
-
-                axiosRetry(axios, { retries: this.settings.maxRetries});
-                await axios.post(this.settings.url, {data: messages});
+            try {
+                await this.pushEventsRoutine();
+            } catch (error) {
+                // Let the request fail
             }
         }, this.settings.accumulationPeriod);
     }
@@ -63,6 +58,30 @@ class SlmfHttpConnector {
             this.accumulator.data.splice(0, messages.length);
 
             this.accumulator.add(...messages);
+        }
+    }
+
+    private createXMLPushEvents(messages: LocationMessage[]) {
+        let XMLData: string = "<Push_Events>";
+        XMLData += messages
+                   .map((message) => `\n${message.toXML()}`)
+                   .reduce((accumulator, xmlMessage) => accumulator + xmlMessage, "");
+
+        XMLData += "\n</Push_Events>";
+
+        return XMLData;
+    }
+
+    private async pushEventsRoutine() {
+        const messagesNumber = highestPossible(this.accumulator.data.length, this.settings.maxSlmfMessages);
+        if (messagesNumber > 0) {
+            const messages: LocationMessage[] = [];
+            transferData(this.accumulator.data, messages, messagesNumber);
+
+            const XMLData = this.createXMLPushEvents(messages);
+
+            axiosRetry(axios, { retries: this.settings.maxRetries});
+            await axios.post(this.settings.url, XMLData);
         }
     }
 }

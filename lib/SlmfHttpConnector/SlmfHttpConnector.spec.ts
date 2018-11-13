@@ -108,7 +108,7 @@ describe("Slmf Http Connector tests", () => {
             jest.advanceTimersByTime(slmfHttpConnector.settings.accumulationPeriod);
             expect(axios.post).toHaveBeenCalledWith(
                 slmfHttpConnector.settings.url,
-                {data: [message, message2]},
+                `<Push_Events>\n${message.toXML()}\n${message2.toXML()}\n</Push_Events>`,
             );
         }
 
