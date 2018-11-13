@@ -6,10 +6,32 @@ jest.useFakeTimers();
 
 import axios from "axios";
 
-import ConnectorSettings from "../ConnectorSettings";
+import ConnectorSettings from "./../ConnectorSettings";
+import LocationMessage, { BatteryStatus, TagIdFormat } from "./../LocationMessage";
 import SlmfHttpConnector from "./SlmfHttpConnector";
 
 const RETRY_TIMES = 3;
+
+/* tslint:disable:object-literal-sort-keys */
+const locationData = {
+    source: "Infrastructure",
+    format: "DFT",
+    tagIdFormat: TagIdFormat.IEEE_EUI_64,
+    tagId: 0x01,
+    position: {
+        x: 0,
+        y: 0,
+        z: 0,
+    },
+    battery: BatteryStatus.Good,
+    timestamp: new Date(),
+};
+/* tslint:enable:object-literal-sort-keys */
+
+const message = new LocationMessage(locationData);
+
+const locationData2 = { ...locationData, source: "Localizer"};
+const message2 = new LocationMessage(locationData2);
 
 const settings: ConnectorSettings = new ConnectorSettings({
     accumulationPeriod : 500,
@@ -44,12 +66,7 @@ describe("Slmf Http Connector tests", () => {
     });
 
     it("should throw error on invalid configuration set", () => {
-        const wrongSettings = {
-            accumulationPeriod: -1000,
-            maxSlmfMessages : 512,
-            port : -1,
-            url : "random",
-        };
+        const wrongSettings = {...settings, accumulationPeriod: -1000};
         try {
             const slmfHttpConnectorFailed = new SlmfHttpConnector(new ConnectorSettings(wrongSettings));
         } catch (error) {
@@ -65,7 +82,7 @@ describe("Slmf Http Connector tests", () => {
         slmfHttpConnector.start();
 
         for (let i = 0; i < CALLS; i++) {
-            slmfHttpConnector.addMessages({data: "data"});
+            slmfHttpConnector.addMessages(message);
             jest.advanceTimersByTime(slmfHttpConnector.settings.accumulationPeriod);
         }
 
@@ -87,11 +104,11 @@ describe("Slmf Http Connector tests", () => {
         slmfHttpConnector.start();
 
         for (let i = 0; i < 3; i++) {
-            slmfHttpConnector.addMessages({number: "one"}, {number: "two"});
+            slmfHttpConnector.addMessages(message, message2);
             jest.advanceTimersByTime(slmfHttpConnector.settings.accumulationPeriod);
             expect(axios.post).toHaveBeenCalledWith(
                 slmfHttpConnector.settings.url,
-                {data: [{number: "one"}, {number: "two"}]},
+                {data: [message, message2]},
             );
         }
 
@@ -100,7 +117,7 @@ describe("Slmf Http Connector tests", () => {
     it("should not send more data than maxSlmfMessages", () => {
         slmfHttpConnector.start();
 
-        const messages = [{number: "xxx"}, {number: "xxx"}, {number: "xxx"}];
+        const messages = [message, message, message];
         slmfHttpConnector.addMessages(...messages);
         expect(slmfHttpConnector.accumulator.data.length).toBe(messages.length);
         jest.advanceTimersByTime(slmfHttpConnector.settings.accumulationPeriod);
@@ -115,7 +132,7 @@ describe("Slmf Http Connector tests", () => {
 
         slmfHttpConnector.start();
 
-        slmfHttpConnector.addMessages({data: "data"});
+        slmfHttpConnector.addMessages(message);
         expect(slmfHttpConnector.accumulator.data.length).toBe(1);
         jest.advanceTimersByTime(slmfHttpConnector.settings.accumulationPeriod);
 
@@ -125,16 +142,15 @@ describe("Slmf Http Connector tests", () => {
     });
 
     it("should discard data if necesary", () => {
-        slmfHttpConnector.addMessages({num: 1}, {num: 2}, {num: 3});
-        slmfHttpConnector.addMessages({num: -1}, {num: -2}, {num: -3});
+        slmfHttpConnector.addMessages(message, message, message2);
+        slmfHttpConnector.addMessages(message2, message2, message);
 
-        expect(slmfHttpConnector.accumulator.data).toMatchObject([{num: -1}, {num: -2}, {num: -3}]);
-
+        expect(slmfHttpConnector.accumulator.data).toMatchObject([message2, message2, message]);
     });
 
     it("should insert the last messages if there is no room", () => {
-        slmfHttpConnector.addMessages({num: 1}, {num: 2}, {num: 3}, {num: 4});
-        expect(slmfHttpConnector.accumulator.data).toMatchObject([{num: 2}, {num: 3}, {num: 4}]);
+        slmfHttpConnector.addMessages(message2, message, message, message);
+        expect(slmfHttpConnector.accumulator.data).toMatchObject([message, message, message]);
     });
 
 });

@@ -6,11 +6,13 @@ import axiosRetry from "axios-retry";
 import Accumulator from "../Accumulator";
 import ConnectorLoop from "../ConnectorLoop";
 import ConnectorSettings from "../ConnectorSettings";
+import LocationMessage from "../LocationMessage";
+
 import { highestPossible, transferData } from "../utils";
 
 class SlmfHttpConnector {
 
-    public readonly accumulator: Accumulator<object>;
+    public readonly accumulator: Accumulator<LocationMessage>;
     public readonly settings: ConnectorSettings;
 
     private loop: ConnectorLoop;
@@ -47,7 +49,7 @@ class SlmfHttpConnector {
         this.loop.stop();
     }
 
-    public addMessages(...messages: object[]) {
+    public addMessages(...messages: LocationMessage[]) {
         try {
             this.accumulator.add(...messages);
         } catch (error) {

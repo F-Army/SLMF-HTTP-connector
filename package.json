@@ -9,7 +9,7 @@
     "lint": "tslint -c tslint.json 'src/**/*.ts'",
     "build": "tsc",
     "docs": "typedoc --options ./typedocconfig.ts",
-    "prepublishOnly": "npm install && npm run build"
+    "prepublishOnly": "rm -rf dist && npm install && npm run build"
   },
   "repository": {
     "type": "git",
@@ -36,6 +36,7 @@
     "@types/jest": "^23.3.9",
     "@types/joi": "^14.0.0",
     "@types/node": "^10.12.5",
+    "@types/xml2js": "^0.4.3",
     "coveralls": "^3.0.2",
     "jest": "^23.6.0",
     "regenerator-runtime": "^0.12.1",
@@ -47,6 +48,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "axios-retry": "^3.1.1",
-    "joi": "^14.0.4"
+    "joi": "^14.0.4",
+    "xml2js": "^0.4.19"
   }
 }
