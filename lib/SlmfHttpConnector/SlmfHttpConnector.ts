@@ -32,9 +32,10 @@ class SlmfHttpConnector {
                 transferData(this.accumulator.data, messages, messagesNumber);
 
                 let XMLData: string = "<Push_Events>";
-                messages.forEach((message) => {
-                    XMLData += `\n${message.toXML()}`;
-                });
+                XMLData += messages
+                           .map((message) => `\n${message.toXML()}`)
+                           .reduce((accumulator, xmlMessage) => accumulator + xmlMessage, "");
+
                 XMLData += "\n</Push_Events>";
 
                 axiosRetry(axios, { retries: this.settings.maxRetries});
