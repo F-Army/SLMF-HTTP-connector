@@ -28,11 +28,17 @@ class SlmfHttpConnector {
             const messagesNumber = highestPossible(this.accumulator.data.length, this.settings.maxSlmfMessages);
 
             if (messagesNumber > 0) {
-                const messages: any[] = [];
+                const messages: LocationMessage[] = [];
                 transferData(this.accumulator.data, messages, messagesNumber);
 
+                let XMLData: string = "<Push_Events>";
+                messages.forEach((message) => {
+                    XMLData += `\n${message.toXML()}`;
+                });
+                XMLData += "\n</Push_Events>";
+
                 axiosRetry(axios, { retries: this.settings.maxRetries});
-                await axios.post(this.settings.url, {data: messages});
+                await axios.post(this.settings.url, XMLData);
             }
         }, this.settings.accumulationPeriod);
     }
