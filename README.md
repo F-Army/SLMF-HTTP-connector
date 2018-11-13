@@ -12,5 +12,5 @@
 
 Status
 ----------
-Work in progress
+Final testing before first release
 
