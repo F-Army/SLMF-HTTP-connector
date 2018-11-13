@@ -118,11 +118,11 @@ class LocationMessage {
             dat: this.data.data,
             alg: this.data.algorithm,
         };
+        /* tslint:enable:object-literal-sort-keys */
 
         // Remove properties that are undefined to not store them in the xml
         removeUndefinedProperties(xmlObject);
 
-        /* tslint:enable:object-literal-sort-keys */
         const builder = new xml2js.Builder({rootName: "SLMF", headless: true});
         return builder.buildObject(xmlObject);
     }
