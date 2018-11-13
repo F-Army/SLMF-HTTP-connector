@@ -35,7 +35,7 @@
   "devDependencies": {
     "@types/jest": "^23.3.9",
     "@types/joi": "^14.0.0",
-    "@types/node": "^10.12.5",
+    "@types/node": "^10.12.6",
     "@types/xml2js": "^0.4.3",
     "coveralls": "^3.0.2",
     "jest": "^23.6.0",
@@ -48,7 +48,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "axios-retry": "^3.1.1",
-    "joi": "^14.0.4",
+    "joi": "^14.0.6",
     "xml2js": "^0.4.19"
   }
 }
