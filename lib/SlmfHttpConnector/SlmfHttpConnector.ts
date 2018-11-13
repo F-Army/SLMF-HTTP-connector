@@ -10,17 +10,6 @@ import LocationMessage from "../LocationMessage";
 
 import { highestPossible, transferData } from "../utils";
 
-const createXMLPushEvents = (messages: LocationMessage[]) => {
-    let XMLData: string = "<Push_Events>";
-    XMLData += messages
-               .map((message) => `\n${message.toXML()}`)
-               .reduce((accumulator, xmlMessage) => accumulator + xmlMessage, "");
-
-    XMLData += "\n</Push_Events>";
-
-    return XMLData;
-};
-
 class SlmfHttpConnector {
 
     public readonly accumulator: Accumulator<LocationMessage>;
@@ -42,7 +31,7 @@ class SlmfHttpConnector {
                 const messages: LocationMessage[] = [];
                 transferData(this.accumulator.data, messages, messagesNumber);
 
-                const XMLData = createXMLPushEvents(messages);
+                const XMLData = this.createXMLPushEvents(messages);
 
                 axiosRetry(axios, { retries: this.settings.maxRetries});
                 await axios.post(this.settings.url, XMLData);
@@ -77,6 +66,17 @@ class SlmfHttpConnector {
 
             this.accumulator.add(...messages);
         }
+    }
+
+    private createXMLPushEvents(messages: LocationMessage[]) {
+        let XMLData: string = "<Push_Events>";
+        XMLData += messages
+                   .map((message) => `\n${message.toXML()}`)
+                   .reduce((accumulator, xmlMessage) => accumulator + xmlMessage, "");
+
+        XMLData += "\n</Push_Events>";
+
+        return XMLData;
     }
 }
 
