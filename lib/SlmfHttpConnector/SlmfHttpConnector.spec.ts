@@ -33,14 +33,14 @@ const message = new LocationMessage(locationData);
 const locationData2 = { ...locationData, source: "Localizer"};
 const message2 = new LocationMessage(locationData2);
 
-const settings: ConnectorSettings = new ConnectorSettings({
+const settings = {
     accumulationPeriod : 500,
     maxAccumulatedMessages : 3,
     maxRetries : RETRY_TIMES,
     maxSlmfMessages : 2,
     port : 8080,
     url : "http://127.0.0.1",
-});
+};
 
 const slmfHttpConnector = new SlmfHttpConnector(settings);
 

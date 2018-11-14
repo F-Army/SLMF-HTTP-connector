@@ -18,8 +18,15 @@ export default class SlmfHttpConnector {
     private loop: ConnectorLoop;
     private running: boolean;
 
-    constructor(settings: ConnectorSettings) {
-        this.settings = settings;
+    constructor(settings: {
+        accumulationPeriod: number,
+        maxAccumulatedMessages?: number,
+        maxRetries?: number,
+        maxSlmfMessages: number,
+        port: number,
+        url: string,
+    }) {
+        this.settings = new ConnectorSettings(settings);
         this.running = false;
         this.accumulator = new Accumulator(this.settings.maxAccumulatedMessages);
 
