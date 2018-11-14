@@ -17,8 +17,8 @@ const DEFAULT_RETRIES: number = 3;
 const schema = Joi.object().keys({
     accumulationPeriod: Joi.number().positive().required(),
     maxAccumulatedMessages: Joi.number().min(Joi.ref("maxSlmfMessages")).default(Joi.ref("maxSlmfMessages")),
-    maxRetries: Joi.number().positive().default(DEFAULT_RETRIES),
-    maxSlmfMessages: Joi.number().positive().min(0).max(1024).required(),
+    maxRetries: Joi.number().min(0).default(DEFAULT_RETRIES),
+    maxSlmfMessages: Joi.number().positive().min(1).max(1024).required(),
     port: Joi.number().positive().min(0).max(65535),
     url: Joi.string().uri({scheme: ["http", "https"]}).required(),
 });
