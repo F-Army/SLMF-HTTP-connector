@@ -45,19 +45,23 @@ export default class SlmfHttpConnector {
     }
 
     public addMessages(...messages: ILocationData[]) {
+
+        const locationMessages = messages.map((message) => new LocationMessage(message));
+
         try {
-            this.accumulator.add(...messages.map((message) => new LocationMessage(message)));
+            this.accumulator.add(...locationMessages);
         } catch (error) {
+
             // Make sure to add at least the most recent messages if you can't accumulate all the messages
-            const discarded = messages.length - this.settings.maxAccumulatedMessages;
+            const discarded = locationMessages.length - this.settings.maxAccumulatedMessages;
             if (discarded > 0) {
-                messages.splice(0, discarded);
+                locationMessages.splice(0, discarded);
             }
 
             // Make room for new messages
             this.accumulator.data.splice(0, messages.length);
 
-            this.accumulator.add(...messages.map((message) => new LocationMessage(message)));
+            this.accumulator.add(...locationMessages);
         }
     }
 
