@@ -143,6 +143,7 @@ describe("Slmf Http Connector tests", () => {
     });
 
     it("should discard data if necesary", () => {
+        slmfHttpConnector.start();
         slmfHttpConnector.addMessages(message, message, message2);
         slmfHttpConnector.addMessages(message2, message2, message);
 
@@ -150,8 +151,14 @@ describe("Slmf Http Connector tests", () => {
     });
 
     it("should insert the last messages if there is no room", () => {
+        slmfHttpConnector.start();
         slmfHttpConnector.addMessages(message2, message, message, message);
         expect(slmfHttpConnector.accumulator.data).toMatchObject([locationMessage, locationMessage, locationMessage]);
+    });
+
+    it("shouldn't add messages if stopped", () => {
+        slmfHttpConnector.addMessages(message2, message, message, message);
+        expect(slmfHttpConnector.accumulator.data).toMatchObject([]);
     });
 
 });

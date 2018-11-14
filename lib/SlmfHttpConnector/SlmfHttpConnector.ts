@@ -47,6 +47,8 @@ export default class SlmfHttpConnector {
 
     public addMessages(...messages: ILocationData[]) {
 
+        if (!this.isRunning()) { return; }
+
         const locationMessages = messages.map((message) => new LocationMessage(message));
 
         try {
