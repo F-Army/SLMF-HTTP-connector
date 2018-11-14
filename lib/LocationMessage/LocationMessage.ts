@@ -17,7 +17,7 @@ export enum TagIdFormat {
     IEEE_EUI_64,
 }
 
-interface IPoint {
+export interface IPoint {
     x: number;
     y: number;
     z: number;
