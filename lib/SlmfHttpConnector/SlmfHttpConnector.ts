@@ -42,6 +42,7 @@ export default class SlmfHttpConnector {
     public stop() {
         this.running = false;
         this.loop.stop();
+        this.accumulator.clear();
     }
 
     public addMessages(...messages: ILocationData[]) {
