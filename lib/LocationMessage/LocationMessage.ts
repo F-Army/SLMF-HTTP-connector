@@ -17,13 +17,13 @@ export enum TagIdFormat {
     IEEE_EUI_64,
 }
 
-interface IPoint {
+export interface IPoint {
     x: number;
     y: number;
     z: number;
 }
 
-interface ILocationData {
+export interface ILocationData {
     source: string;
     format: string;
     tagIdFormat: TagIdFormat;
@@ -79,7 +79,7 @@ const schema = Joi.object().keys({
 });
 /* tslint:enable:object-literal-sort-keys */
 
-class LocationMessage {
+export default class LocationMessage {
     private data$!: ILocationData;
 
     constructor(data: ILocationData) {
@@ -127,5 +127,3 @@ class LocationMessage {
         return builder.buildObject(xmlObject);
     }
 }
-
-export default LocationMessage;

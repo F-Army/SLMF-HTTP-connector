@@ -5,12 +5,13 @@ import axiosRetry from "axios-retry";
 
 import Accumulator from "../Accumulator";
 import ConnectorLoop from "../ConnectorLoop";
-import ConnectorSettings from "../ConnectorSettings";
-import LocationMessage from "../LocationMessage";
+import ConnectorSettings, { IConnectorSettings } from "../ConnectorSettings";
+import LocationMessage, { ILocationData } from "../LocationMessage";
 
+import { URLSearchParams } from "url";
 import { highestPossible, transferData } from "../utils";
 
-class SlmfHttpConnector {
+export default class SlmfHttpConnector {
 
     public readonly accumulator: Accumulator<LocationMessage>;
     public readonly settings: ConnectorSettings;
@@ -18,8 +19,8 @@ class SlmfHttpConnector {
     private loop: ConnectorLoop;
     private running: boolean;
 
-    constructor(settings: ConnectorSettings) {
-        this.settings = settings;
+    constructor(settings: IConnectorSettings) {
+        this.settings = new ConnectorSettings(settings);
         this.running = false;
         this.accumulator = new Accumulator(this.settings.maxAccumulatedMessages);
 
@@ -42,22 +43,29 @@ class SlmfHttpConnector {
     public stop() {
         this.running = false;
         this.loop.stop();
+        this.accumulator.clear();
     }
 
-    public addMessages(...messages: LocationMessage[]) {
+    public addMessages(...messages: ILocationData[]) {
+
+        if (!this.isRunning()) { return; }
+
+        const locationMessages = messages.map((message) => new LocationMessage(message));
+
         try {
-            this.accumulator.add(...messages);
+            this.accumulator.add(...locationMessages);
         } catch (error) {
+
             // Make sure to add at least the most recent messages if you can't accumulate all the messages
-            const discarded = messages.length - this.settings.maxAccumulatedMessages;
+            const discarded = locationMessages.length - this.settings.maxAccumulatedMessages;
             if (discarded > 0) {
-                messages.splice(0, discarded);
+                locationMessages.splice(0, discarded);
             }
 
             // Make room for new messages
             this.accumulator.data.splice(0, messages.length);
 
-            this.accumulator.add(...messages);
+            this.accumulator.add(...locationMessages);
         }
     }
 
@@ -81,9 +89,10 @@ class SlmfHttpConnector {
             const XMLData = this.createXMLPushEvents(messages);
 
             axiosRetry(axios, { retries: this.settings.maxRetries});
-            await axios.post(this.settings.url, XMLData);
+
+            const params = new URLSearchParams();
+            params.append("data", XMLData);
+            await axios.post(this.settings.url, params);
         }
     }
 }
-
-export default SlmfHttpConnector;

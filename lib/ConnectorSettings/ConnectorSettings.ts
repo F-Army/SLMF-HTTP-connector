@@ -1,34 +1,36 @@
 "use strict";
 
 import Joi from "joi";
+import { URL } from "url";
+
+export interface IConnectorSettings {
+    accumulationPeriod: number;
+    maxAccumulatedMessages: number;
+    maxRetries?: number;
+    maxSlmfMessages: number;
+    port?: number;
+    url: string;
+}
 
 const DEFAULT_RETRIES: number = 3;
 
 const schema = Joi.object().keys({
     accumulationPeriod: Joi.number().positive().required(),
     maxAccumulatedMessages: Joi.number().min(Joi.ref("maxSlmfMessages")).default(Joi.ref("maxSlmfMessages")),
-    maxRetries: Joi.number().positive().default(DEFAULT_RETRIES),
-    maxSlmfMessages: Joi.number().positive().min(0).max(1024).required(),
-    port: Joi.number().positive().min(0).max(65535).required(),
+    maxRetries: Joi.number().min(0).default(DEFAULT_RETRIES),
+    maxSlmfMessages: Joi.number().positive().min(1).max(1024).required(),
+    port: Joi.number().positive().min(0).max(65535),
     url: Joi.string().uri({scheme: ["http", "https"]}).required(),
 });
 
-class ConnectorSettings {
+export default class ConnectorSettings {
     public readonly accumulationPeriod: number;
     public readonly maxAccumulatedMessages: number;
     public readonly maxRetries: number;
     public readonly maxSlmfMessages: number;
-    public readonly port: number;
     public readonly url: string;
 
-    constructor(settings: {
-        accumulationPeriod: number,
-        maxAccumulatedMessages?: number,
-        maxRetries?: number,
-        maxSlmfMessages: number,
-        port: number,
-        url: string,
-    }) {
+    constructor(settings: IConnectorSettings) {
             const validation = Joi.validate(settings, schema);
 
             if (validation.error) {
@@ -39,9 +41,12 @@ class ConnectorSettings {
             this.maxAccumulatedMessages = validation.value.maxAccumulatedMessages!;
             this.maxRetries = validation.value.maxRetries!;
             this.maxSlmfMessages = validation.value.maxSlmfMessages;
-            this.port = validation.value.port;
-            this.url = validation.value.url;
+            const url = new URL(settings.url);
+
+            if (validation.value.port) {
+                url.port = validation.value.port.toString();
+            }
+
+            this.url = url.toString();
     }
 }
-
-export default ConnectorSettings;

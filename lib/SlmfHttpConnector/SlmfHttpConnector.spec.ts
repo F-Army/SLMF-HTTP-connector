@@ -5,15 +5,16 @@ jest.mock("axios");
 jest.useFakeTimers();
 
 import axios from "axios";
+import { URLSearchParams } from "url";
 
-import ConnectorSettings from "./../ConnectorSettings";
+import ConnectorSettings, {IConnectorSettings} from "./../ConnectorSettings";
 import LocationMessage, { BatteryStatus, TagIdFormat } from "./../LocationMessage";
 import SlmfHttpConnector from "./SlmfHttpConnector";
 
 const RETRY_TIMES = 3;
 
 /* tslint:disable:object-literal-sort-keys */
-const locationData = {
+const message = {
     source: "Infrastructure",
     format: "DFT",
     tagIdFormat: TagIdFormat.IEEE_EUI_64,
@@ -28,19 +29,20 @@ const locationData = {
 };
 /* tslint:enable:object-literal-sort-keys */
 
-const message = new LocationMessage(locationData);
+const locationMessage = new LocationMessage(message);
 
-const locationData2 = { ...locationData, source: "Localizer"};
-const message2 = new LocationMessage(locationData2);
+const message2 = { ...message, source: "Localizer"};
 
-const settings: ConnectorSettings = new ConnectorSettings({
+const locationMessage2 = new LocationMessage(message2);
+
+const settings: IConnectorSettings = {
     accumulationPeriod : 500,
     maxAccumulatedMessages : 3,
     maxRetries : RETRY_TIMES,
     maxSlmfMessages : 2,
     port : 8080,
     url : "http://127.0.0.1",
-});
+};
 
 const slmfHttpConnector = new SlmfHttpConnector(settings);
 
@@ -106,9 +108,16 @@ describe("Slmf Http Connector tests", () => {
         for (let i = 0; i < 3; i++) {
             slmfHttpConnector.addMessages(message, message2);
             jest.advanceTimersByTime(slmfHttpConnector.settings.accumulationPeriod);
+
+            const params = new URLSearchParams();
+            params.append(
+                "data",
+                `<Push_Events>\n${locationMessage.toXML()}\n${locationMessage2.toXML()}\n</Push_Events>`,
+            );
+
             expect(axios.post).toHaveBeenCalledWith(
                 slmfHttpConnector.settings.url,
-                `<Push_Events>\n${message.toXML()}\n${message2.toXML()}\n</Push_Events>`,
+                params,
             );
         }
 
@@ -142,15 +151,22 @@ describe("Slmf Http Connector tests", () => {
     });
 
     it("should discard data if necesary", () => {
+        slmfHttpConnector.start();
         slmfHttpConnector.addMessages(message, message, message2);
         slmfHttpConnector.addMessages(message2, message2, message);
 
-        expect(slmfHttpConnector.accumulator.data).toMatchObject([message2, message2, message]);
+        expect(slmfHttpConnector.accumulator.data).toMatchObject([locationMessage2, locationMessage2, locationMessage]);
     });
 
     it("should insert the last messages if there is no room", () => {
+        slmfHttpConnector.start();
         slmfHttpConnector.addMessages(message2, message, message, message);
-        expect(slmfHttpConnector.accumulator.data).toMatchObject([message, message, message]);
+        expect(slmfHttpConnector.accumulator.data).toMatchObject([locationMessage, locationMessage, locationMessage]);
+    });
+
+    it("shouldn't add messages if stopped", () => {
+        slmfHttpConnector.addMessages(message2, message, message, message);
+        expect(slmfHttpConnector.accumulator.data).toMatchObject([]);
     });
 
 });
