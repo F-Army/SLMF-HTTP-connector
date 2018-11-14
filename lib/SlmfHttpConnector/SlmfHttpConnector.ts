@@ -5,12 +5,12 @@ import axiosRetry from "axios-retry";
 
 import Accumulator from "../Accumulator";
 import ConnectorLoop from "../ConnectorLoop";
-import { ConnectorSettings } from "../ConnectorSettings";
+import ConnectorSettings from "../ConnectorSettings";
 import LocationMessage from "../LocationMessage";
 
 import { highestPossible, transferData } from "../utils";
 
-export class SlmfHttpConnector {
+export default class SlmfHttpConnector {
 
     public readonly accumulator: Accumulator<LocationMessage>;
     public readonly settings: ConnectorSettings;

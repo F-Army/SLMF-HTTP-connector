@@ -79,7 +79,7 @@ const schema = Joi.object().keys({
 });
 /* tslint:enable:object-literal-sort-keys */
 
-class LocationMessage {
+export default class LocationMessage {
     private data$!: ILocationData;
 
     constructor(data: ILocationData) {
@@ -127,5 +127,3 @@ class LocationMessage {
         return builder.buildObject(xmlObject);
     }
 }
-
-export default LocationMessage;

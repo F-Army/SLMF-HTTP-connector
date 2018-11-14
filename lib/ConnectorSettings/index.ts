@@ -1,1 +1,1 @@
-export { ConnectorSettings } from "./ConnectorSettings";
+export { default } from "./ConnectorSettings";

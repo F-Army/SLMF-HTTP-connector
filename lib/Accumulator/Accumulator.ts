@@ -1,4 +1,4 @@
-class Accumulator<T> {
+export default class Accumulator<T> {
 
     private maxItems: number;
     private items: T[];
@@ -24,5 +24,3 @@ class Accumulator<T> {
         this.items = [];
     }
 }
-
-export default Accumulator;

@@ -1,8 +1,6 @@
 "use strict";
 
-import Joi from "joi";
-
-import { ConnectorSettings } from "./ConnectorSettings";
+import ConnectorSettings from "./ConnectorSettings";
 
 describe("Configuration schema test", () => {
     it("should validate correct schema", (done) => {

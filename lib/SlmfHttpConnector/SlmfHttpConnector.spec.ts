@@ -6,9 +6,9 @@ jest.useFakeTimers();
 
 import axios from "axios";
 
-import { ConnectorSettings } from "./../ConnectorSettings";
+import ConnectorSettings from "./../ConnectorSettings";
 import LocationMessage, { BatteryStatus, TagIdFormat } from "./../LocationMessage";
-import { SlmfHttpConnector } from "./SlmfHttpConnector";
+import SlmfHttpConnector from "./SlmfHttpConnector";
 
 const RETRY_TIMES = 3;
 

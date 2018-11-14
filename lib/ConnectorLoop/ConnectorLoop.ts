@@ -1,6 +1,6 @@
 "use strict";
 
-class ConnectorLoop {
+export default class ConnectorLoop {
 
     private routine: (...args: any) => any;
     private interval: number;
@@ -21,5 +21,3 @@ class ConnectorLoop {
         clearInterval(this.loopHandler);
     }
 }
-
-export default ConnectorLoop;

@@ -13,7 +13,7 @@ const schema = Joi.object().keys({
     url: Joi.string().uri({scheme: ["http", "https"]}).required(),
 });
 
-export class ConnectorSettings {
+export default class ConnectorSettings {
     public readonly accumulationPeriod: number;
     public readonly maxAccumulatedMessages: number;
     public readonly maxRetries: number;
