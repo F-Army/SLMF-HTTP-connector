@@ -1,1 +1,1 @@
-export { default } from "./SlmfHttpConnector";
+export { SlmfHttpConnector } from "./SlmfHttpConnector";
