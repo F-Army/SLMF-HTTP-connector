@@ -6,14 +6,14 @@ jest.useFakeTimers();
 
 import axios from "axios";
 
-import ConnectorSettings from "./../ConnectorSettings";
+import ConnectorSettings, {IConnectorSettings} from "./../ConnectorSettings";
 import LocationMessage, { BatteryStatus, TagIdFormat } from "./../LocationMessage";
 import SlmfHttpConnector from "./SlmfHttpConnector";
 
 const RETRY_TIMES = 3;
 
 /* tslint:disable:object-literal-sort-keys */
-const locationData = {
+const message = {
     source: "Infrastructure",
     format: "DFT",
     tagIdFormat: TagIdFormat.IEEE_EUI_64,
@@ -28,12 +28,13 @@ const locationData = {
 };
 /* tslint:enable:object-literal-sort-keys */
 
-const message = new LocationMessage(locationData);
+const locationMessage = new LocationMessage(message);
 
-const locationData2 = { ...locationData, source: "Localizer"};
-const message2 = new LocationMessage(locationData2);
+const message2 = { ...message, source: "Localizer"};
 
-const settings = {
+const locationMessage2 = new LocationMessage(message2);
+
+const settings: IConnectorSettings = {
     accumulationPeriod : 500,
     maxAccumulatedMessages : 3,
     maxRetries : RETRY_TIMES,
@@ -108,7 +109,7 @@ describe("Slmf Http Connector tests", () => {
             jest.advanceTimersByTime(slmfHttpConnector.settings.accumulationPeriod);
             expect(axios.post).toHaveBeenCalledWith(
                 slmfHttpConnector.settings.url,
-                `<Push_Events>\n${message.toXML()}\n${message2.toXML()}\n</Push_Events>`,
+                `<Push_Events>\n${locationMessage.toXML()}\n${locationMessage2.toXML()}\n</Push_Events>`,
             );
         }
 
@@ -145,12 +146,12 @@ describe("Slmf Http Connector tests", () => {
         slmfHttpConnector.addMessages(message, message, message2);
         slmfHttpConnector.addMessages(message2, message2, message);
 
-        expect(slmfHttpConnector.accumulator.data).toMatchObject([message2, message2, message]);
+        expect(slmfHttpConnector.accumulator.data).toMatchObject([locationMessage2, locationMessage2, locationMessage]);
     });
 
     it("should insert the last messages if there is no room", () => {
         slmfHttpConnector.addMessages(message2, message, message, message);
-        expect(slmfHttpConnector.accumulator.data).toMatchObject([message, message, message]);
+        expect(slmfHttpConnector.accumulator.data).toMatchObject([locationMessage, locationMessage, locationMessage]);
     });
 
 });

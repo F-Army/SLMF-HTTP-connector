@@ -2,6 +2,15 @@
 
 import Joi from "joi";
 
+export interface IConnectorSettings {
+    accumulationPeriod: number;
+    maxAccumulatedMessages: number;
+    maxRetries: number;
+    maxSlmfMessages: number;
+    port: number;
+    url: string;
+}
+
 const DEFAULT_RETRIES: number = 3;
 
 const schema = Joi.object().keys({
@@ -21,14 +30,7 @@ export default class ConnectorSettings {
     public readonly port: number;
     public readonly url: string;
 
-    constructor(settings: {
-        accumulationPeriod: number,
-        maxAccumulatedMessages?: number,
-        maxRetries?: number,
-        maxSlmfMessages: number,
-        port: number,
-        url: string,
-    }) {
+    constructor(settings: IConnectorSettings) {
             const validation = Joi.validate(settings, schema);
 
             if (validation.error) {

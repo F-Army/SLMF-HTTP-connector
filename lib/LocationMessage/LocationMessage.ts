@@ -23,7 +23,7 @@ interface IPoint {
     z: number;
 }
 
-interface ILocationData {
+export interface ILocationData {
     source: string;
     format: string;
     tagIdFormat: TagIdFormat;

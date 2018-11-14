@@ -5,8 +5,8 @@ import axiosRetry from "axios-retry";
 
 import Accumulator from "../Accumulator";
 import ConnectorLoop from "../ConnectorLoop";
-import ConnectorSettings from "../ConnectorSettings";
-import LocationMessage from "../LocationMessage";
+import ConnectorSettings, { IConnectorSettings } from "../ConnectorSettings";
+import LocationMessage, { ILocationData } from "../LocationMessage";
 
 import { highestPossible, transferData } from "../utils";
 
@@ -18,14 +18,7 @@ export default class SlmfHttpConnector {
     private loop: ConnectorLoop;
     private running: boolean;
 
-    constructor(settings: {
-        accumulationPeriod: number,
-        maxAccumulatedMessages?: number,
-        maxRetries?: number,
-        maxSlmfMessages: number,
-        port: number,
-        url: string,
-    }) {
+    constructor(settings: IConnectorSettings) {
         this.settings = new ConnectorSettings(settings);
         this.running = false;
         this.accumulator = new Accumulator(this.settings.maxAccumulatedMessages);
@@ -51,9 +44,9 @@ export default class SlmfHttpConnector {
         this.loop.stop();
     }
 
-    public addMessages(...messages: LocationMessage[]) {
+    public addMessages(...messages: ILocationData[]) {
         try {
-            this.accumulator.add(...messages);
+            this.accumulator.add(...messages.map((message) => new LocationMessage(message)));
         } catch (error) {
             // Make sure to add at least the most recent messages if you can't accumulate all the messages
             const discarded = messages.length - this.settings.maxAccumulatedMessages;
@@ -64,7 +57,7 @@ export default class SlmfHttpConnector {
             // Make room for new messages
             this.accumulator.data.splice(0, messages.length);
 
-            this.accumulator.add(...messages);
+            this.accumulator.add(...messages.map((message) => new LocationMessage(message)));
         }
     }
 
