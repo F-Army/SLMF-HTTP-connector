@@ -8,6 +8,7 @@ import ConnectorLoop from "../ConnectorLoop";
 import ConnectorSettings, { IConnectorSettings } from "../ConnectorSettings";
 import LocationMessage, { ILocationData } from "../LocationMessage";
 
+import { URLSearchParams } from "url";
 import { highestPossible, transferData } from "../utils";
 
 export default class SlmfHttpConnector {
@@ -88,7 +89,10 @@ export default class SlmfHttpConnector {
             const XMLData = this.createXMLPushEvents(messages);
 
             axiosRetry(axios, { retries: this.settings.maxRetries});
-            await axios.post(this.settings.url, XMLData);
+
+            const params = new URLSearchParams();
+            params.append("data", XMLData);
+            await axios.post(this.settings.url, params);
         }
     }
 }

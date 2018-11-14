@@ -5,6 +5,7 @@ jest.mock("axios");
 jest.useFakeTimers();
 
 import axios from "axios";
+import { URLSearchParams } from "url";
 
 import ConnectorSettings, {IConnectorSettings} from "./../ConnectorSettings";
 import LocationMessage, { BatteryStatus, TagIdFormat } from "./../LocationMessage";
@@ -107,9 +108,16 @@ describe("Slmf Http Connector tests", () => {
         for (let i = 0; i < 3; i++) {
             slmfHttpConnector.addMessages(message, message2);
             jest.advanceTimersByTime(slmfHttpConnector.settings.accumulationPeriod);
+
+            const params = new URLSearchParams();
+            params.append(
+                "data",
+                `<Push_Events>\n${locationMessage.toXML()}\n${locationMessage2.toXML()}\n</Push_Events>`,
+            );
+
             expect(axios.post).toHaveBeenCalledWith(
                 slmfHttpConnector.settings.url,
-                `<Push_Events>\n${locationMessage.toXML()}\n${locationMessage2.toXML()}\n</Push_Events>`,
+                params,
             );
         }
 
