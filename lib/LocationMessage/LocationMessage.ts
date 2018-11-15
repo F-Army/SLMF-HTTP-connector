@@ -1,6 +1,6 @@
 import Joi from "joi";
 import xml2js from "xml2js";
-import { bytesMaxValue, removeUndefinedProperties } from "./../utils";
+import { bytesMaxValue, convertToHexBinary, removeUndefinedProperties } from "./../utils";
 
 const eightBytesMaxValue = bytesMaxValue(8);
 const OneHundredTwentyThreeBytesMaxValue = bytesMaxValue(123);
@@ -42,18 +42,18 @@ export interface ILocationData {
 interface ILocationDataXML {
     src: string;
     fmt: string;
-    idfmt: TagIdFormat;
-    tid: number;
+    idfmt: string;
+    tid: string;
     x: number;
     y: number;
     z: number;
-    bat: number;
+    bat: BatteryStatus;
     t: string;
     cls?: string;
     zon?: string;
     exc?: string;
     ant?: number;
-    dat?: number;
+    dat?: string;
     alg?: string;
 }
 
@@ -104,8 +104,8 @@ export default class LocationMessage {
         const xmlObject: ILocationDataXML = {
             src: this.data.source,
             fmt: this.data.format,
-            idfmt: this.data.tagIdFormat,
-            tid: this.data.tagId,
+            idfmt: convertToHexBinary(this.data.tagIdFormat)!,
+            tid: convertToHexBinary(this.data.tagId)!,
             x: this.data.position.x,
             y: this.data.position.y,
             z: this.data.position.z,
@@ -115,7 +115,7 @@ export default class LocationMessage {
             zon: this.data.zone,
             exc: this.data.exciterId,
             ant: this.data.antennaId,
-            dat: this.data.data,
+            dat: convertToHexBinary(this.data.data),
             alg: this.data.algorithm,
         };
         /* tslint:enable:object-literal-sort-keys */
