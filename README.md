@@ -61,3 +61,11 @@ If you need to stop the connector just do:
 ```
 connector.stop(); // It will not send nor receive messages until started
 ```
+
+Documentation
+----------
+
+User documentation is currently in progress but you can generate the library files documentation inside the project folder:
+```
+npm run docs
+```
