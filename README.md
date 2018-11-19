@@ -8,7 +8,7 @@
 Basic usage
 ----------
 
-Install this packages simply using npm:
+Install this package simply using npm:
 
 ```
 npm install slmf-http-connector
