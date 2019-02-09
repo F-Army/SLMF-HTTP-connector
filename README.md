@@ -60,7 +60,7 @@ connector.stop(); // It will not send nor receive messages until started
 Documentation
 ----------
 
-User documentation is currently in progress but you can generate the library files documentation inside the project folder:
+You can generate the library documentation inside the project folder using:
 ```
 npm run docs
 ```
